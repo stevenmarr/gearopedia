@@ -19,6 +19,11 @@ def DefaultGearCategories():
 	categories = session.query(GearCategories).all()
 	return render_template('default.html', categories=categories)
 
+@app.route('/view_items/<int:category_id>')
+def ViewItems(category_id):
+	items = session.query(GearModels).filter_by(category_id=category_id).all()
+	return render_template('items.html', items=items)
+
 if __name__ == '__main__':
 	app.secret_key = 'super-secret-key'
 	app.debug = True

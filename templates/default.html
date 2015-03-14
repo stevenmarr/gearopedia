@@ -17,7 +17,7 @@
 
 <div>
 	<p>{{category.name}}</p>
-	<a href='#'>View Items</a>
+	<a href='{{url_for('ViewItems', category_id = category.id)}}'>View Items</a>
 </div>
 
 
