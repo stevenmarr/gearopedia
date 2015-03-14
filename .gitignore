@@ -1,3 +1,5 @@
 *.pyc
 /*.pyc
+*.db
+/*.db
 .DS_Store
