@@ -1,0 +1,21 @@
+<html>
+<body>
+
+<h1>Page Header</h1>
+<h3><a href='{{url_for('DefaultGearCategories')}}'>Categories</a></h3>
+<h3><a href='{{url_for('AddGearCategory')}}'>Add Category</a></h3>
+{% with messages = get_flashed_messages() %}
+	{% if messages %}
+	<ul>
+		{% for message in messages %}
+			<li><strong>{{ message }}</strong></li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+{% endwith %}
+
+{% block maincontent %}
+{% endblock %}
+
+</body>
+</html>
