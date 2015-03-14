@@ -1,0 +1,18 @@
+{% extends "main.html" %}
+{% block maincontent %}
+
+	{% for model in models %}
+	<div>
+		<p>{{model.manufacturer}} {{model.name}}</p>
+			<li>{{model.description}}</li>
+			<li><a href='{{model.product_url}}'>Product Website</a></li>
+			<li><a href='{{model.manual_url}}'>Manual</a></li>
+			<li><a href='#'>View Model</a></li>
+	</div>
+	{% endfor %}
+	<hr>
+	<div>
+		<a href='{{url_for('AddModel', category_id = category_id)}}'>Add Model</a>
+	</div>
+	</hr>
+{% endblock %}
