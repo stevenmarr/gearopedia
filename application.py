@@ -19,12 +19,22 @@ def DefaultGearCategories():
 	categories = session.query(GearCategories).all()
 	return render_template('default.html', categories=categories)
 
-@app.route('/add_category/')
+@app.route('/add_category/', methods=['GET','POST'])
 def AddGearCategory():
-	
-	pass
+	if request.method == 'POST':
+		form = AddCategoryForm(request.form)
+		if not form.validate():
+			return render_template('add_category.html', form=form)
+		new_category = GearCategories(name = form.name.data)
+		session.add(new_category)
+		session.commit()
+		flash('New category added')
+		return redirect(url_for('DefaultGearCategories'))
+	else:
+		form = AddCategoryForm()
+		return render_template('add_category.html', form=form)
 
-@app.route('/delete_category/<int:category_id>/')
+@app.route('/delete_category/<int:category_id>/', methods=['GET','POST'])
 def DeleteGearCategory(category_id):
 	pass
 
@@ -33,15 +43,15 @@ def ViewItems(category_id):
 	items = session.query(GearModels).filter_by(category_id=category_id).all()
 	return render_template('items.html', items=items)
 
-@app.route('/add_item/<int:category_id>/')
+@app.route('/add_item/<int:category_id>/', methods=['GET','POST'])
 def AddItem(category_id):
 	pass
 
-@app.route('/edit_item/<int:item_id>/')
+@app.route('/edit_item/<int:item_id>/', methods=['GET','POST'])
 def EditItem(item_id):
 	pass
 
-@app.route('/delete_item/<int:item_id>/')
+@app.route('/delete_item/<int:item_id>/', methods=['GET','POST'])
 def DeleteItem(item_id):
 	pass
 
