@@ -18,7 +18,7 @@ class GearModels(Base):
     
     id = Column(Integer, primary_key = True)
     manufacturer = Column(String(80), nullable = False)
-    model =Column(String(80), nullable = False)
+    name =Column(String(80), nullable = False)
     description = Column(String(800))
     product_url = Column(String(80))
     manual_url = Column(String(80))
