@@ -1,0 +1,27 @@
+<html>
+
+<body>
+
+<h1>Gear Wiki - Categories</h1>
+	{% with messages = get_flashed_messages() %}
+	{% if messages %}
+	<ul>
+		{% for message in messages %}
+		<li><strong>{{ message }}</strong></li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+	{% endwith %}
+
+{% for category in categories %}
+
+<div>
+	<p>{{category.name}}</p>
+	<a href='#'>View Items</a>
+</div>
+
+
+{% endfor %}
+</body>
+
+</html>
