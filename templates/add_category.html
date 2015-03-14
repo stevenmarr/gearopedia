@@ -1,7 +1,7 @@
 {% extends "main.html" %}
 {% block maincontent %}
 	<div>
-		<form action='{{url_for('AddCategory')}}' method="POST" enctype='multipart/form-data'>
+		<form action='{{url_for('AddGearCategory')}}' method="POST" enctype='multipart/form-data'>
 			<p>
 			<div>
 				{{ form.name.label }}  {{ form.name(class="field size1")  }} 
