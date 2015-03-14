@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine 
 from sqlalchemy.orm import sessionmaker
  
 from models import GearCategories, GearModels, Base
@@ -38,7 +38,7 @@ session.add(category2)
 session.commit()
 
 model1 = GearModels(	manufacturer = "Christie Digital",
-						model = "HD14K-M", 
+						name = "HD14K-M", 
 						description = "Christie Roadster HD14K-M 1080 HD DLP projector",
 					 	product_url = "http://www.christiedigital.com/en-us/business/products/projectors/3-chip-dlp/m-series/pages/roadster-hd14k-m-3-chip-dlp-projector.aspx",
 					 	manual_url = "http://www.christiedigital.com/SupportDocs/Anonymous/020-100009-08_LIT-MAN-USR-M-Series.pdf",
@@ -48,7 +48,7 @@ session.add(model1)
 session.commit()
 
 model2 = GearModels(	manufacturer = "Christie Digital",
-						model = "HD10K-M", 
+						name = "HD10K-M", 
 						description = "Christie Roadster HD10K-M 1080 HD DLP projector",
 					 	product_url = "http://www.christiedigital.com/en-us/business/products/projectors/3-chip-dlp/m-series/pages/roadster-hd14k-m-3-chip-dlp-projector.aspx",
 					 	manual_url = "http://www.christiedigital.com/SupportDocs/Anonymous/020-100009-08_LIT-MAN-USR-M-Series.pdf",
@@ -58,7 +58,7 @@ session.add(model2)
 session.commit()
 
 model2 = GearModels(	manufacturer = "Sony",
-						model = "HXC100", 
+						name = "HXC100", 
 						description = "Three 2/3-inch Power HAD FX CCD sensors compact portable SD / HD camera",
 					 	product_url = "http://www.pro.sony.eu/pro/lang/en/eu/product/broadcast-products-system-cameras-hd-system-cameras/hxc-100/overview/",
 					 	manual_url = "http://www.pro.sony.eu/pro/lang/en/eu/support/operation-manual/1237485705077",
