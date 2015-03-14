@@ -4,7 +4,7 @@
 	{% for category in categories %}
 	<div>
 		<p>{{category.name}}</p>
-		<a href='{{url_for('ViewItems', category_id = category.id)}}'>View Items</a>
+		<a href='{{url_for('ViewModels', category_id = category.id)}}'>View Models</a>
 	</div>
 	{% endfor %}
 
