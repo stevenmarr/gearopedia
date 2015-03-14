@@ -11,7 +11,7 @@ class GearCategories(Base):
     __tablename__ = 'category'
    
     id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
+    name = Column(String(20), nullable=False)
  
 class GearModels(Base):
     __tablename__ = 'model'
@@ -19,7 +19,7 @@ class GearModels(Base):
     id = Column(Integer, primary_key = True)
     manufacturer = Column(String(80), nullable = False)
     model =Column(String(80), nullable = False)
-    description = Column(String(250))
+    description = Column(String(800))
     product_url = Column(String(80))
     manual_url = Column(String(80))
     category_id = Column(Integer,ForeignKey('category.id'))
@@ -27,6 +27,4 @@ class GearModels(Base):
 
 
 engine = create_engine('sqlite:///gear_wiki.db')
- 
-
 Base.metadata.create_all(engine)
