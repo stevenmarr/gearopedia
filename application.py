@@ -1,4 +1,5 @@
 from flask import Flask, render_template, url_for, request, redirect, flash
+from werkzeug import secure_filename
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -36,7 +37,18 @@ def AddGearCategory():
 
 @app.route('/delete_category/<int:category_id>/', methods=['GET','POST'])
 def DeleteGearCategory(category_id):
-	pass
+	category = session.query(GearCategories).filter_by(id = category_id).one()
+	if request.method == 'POST':
+		models = session.query(GearModels).filter_by(category=category).all()
+		for model in models:
+			session.delete(model)
+			session.commit()
+		session.delete(category)
+		session.commit()
+		flash('Category %s deleted'% category.name)
+		return redirect(url_for('DefaultGearCategories'))
+	else:
+		return render_template('delete_category.html', category=category)
 
 @app.route('/view_items/<int:category_id>/')
 def ViewModels(category_id):
@@ -54,6 +66,12 @@ def AddModel(category_id):
 			return render_template('add_model.html', form=form, category=category)
 		new_model = GearModels()
 		form.populate_obj(new_model)
+		file = request.files['file']
+		if file:
+			
+			filename = secure_filename(file.filename)
+			#new_model.manual = file.read()
+			file.save(new_model.manual, filename)
 		new_model.category = category
 		session.add(new_model)
 		session.commit()
