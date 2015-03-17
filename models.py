@@ -1,6 +1,6 @@
 import os
 import sys
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String, LargeBinary
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
@@ -24,7 +24,7 @@ class GearModels(Base):
     manual_url = Column(String(80))
     category_id = Column(Integer,ForeignKey('category.id'))
     category = relationship(GearCategories) 
-
+    manual = Column(LargeBinary, nullable=True)
 
 engine = create_engine('sqlite:///gear_wiki.db')
 Base.metadata.create_all(engine)
