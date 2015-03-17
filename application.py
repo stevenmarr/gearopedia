@@ -84,7 +84,14 @@ def EditModel(model_id):
 
 @app.route('/delete_model/<int:model_id>/', methods=['GET','POST'])
 def DeleteModel(model_id):
-	pass
+	model = session.query(GearModels).filter_by(id=model_id).one()
+	if request.method == 'POST':
+		session.delete(model)
+		session.commit()
+		flash('Model %s deleted'% model.name)
+		return redirect(url_for('ViewModels', category_id=model.category_id))
+	else:
+		return render_template('delete_model.html', model=model)	
 
 if __name__ == '__main__':
 	app.secret_key = 'super-secret-key'
