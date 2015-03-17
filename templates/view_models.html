@@ -7,8 +7,7 @@
 			<li>{{model.description}}</li>
 			<li><a href='{{model.product_url}}'>Product Website</a></li>
 			<li><a href='{{model.manual_url}}'>Manual</a></li>
-			<li><a href='#'>View Model</a></li>
-			
+			<li><a href='{{url_for('EditModel', model_id=model.id)}}'>Edit Model</a></li>
 	</div>
 	{% endfor %}
 	<hr>
