@@ -1,7 +1,7 @@
 gear-wiki
 ===================
 
-A catalog of produciton equipment sorted into categories with user authentication
+A catalog of production equipment sorted into categories with user authentication
 
 Getting started
 
