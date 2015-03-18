@@ -110,7 +110,9 @@ def DeleteModel(model_id):
 		return redirect(url_for('ViewModels', category_id=model.category_id))
 	else:
 		return render_template('delete_model.html', model=model)	
-
+@app.route('/json/')
+def JSON():
+	
 if __name__ == '__main__':
 	app.secret_key = 'super-secret-key'
 	app.debug = True
