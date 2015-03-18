@@ -26,5 +26,15 @@ class GearModels(Base):
     category = relationship(GearCategories) 
     manual = Column(LargeBinary, nullable=True)
 
+class GearFiles(Base):
+    __tablename__ = 'file'
+    id = Column(Integer, primary_key=True)
+    file_name = Column(String(80), nullable = False)
+    file_type = Column(String(80), nullable = False)
+    gear_file = Column(LargeBinary)
+    gear_id = Column(Integer, ForeignKey('gear.id'))
+    gear = relationship(GearModels)
+    
+
 engine = create_engine('sqlite:///gear_wiki.db')
 Base.metadata.create_all(engine)
