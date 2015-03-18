@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, redirect, flash
+from flask import Flask, render_template, url_for, request, redirect, flash, jsonify
 from werkzeug import secure_filename
 
 from sqlalchemy import create_engine
@@ -112,7 +112,9 @@ def DeleteModel(model_id):
 		return render_template('delete_model.html', model=model)	
 @app.route('/json/')
 def JSON():
-	pass
+	models = session.query(GearModels).all()
+	return jsonify(AllModels=[model.serialize for model in models])
+	
 
 if __name__ == '__main__':
 	app.secret_key = 'super-secret-key'
