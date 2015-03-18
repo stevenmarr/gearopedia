@@ -8,6 +8,7 @@
 			<li><a href='{{model.product_url}}'>Product Website</a></li>
 			<li><a href='{{model.manual_url}}'>Manual</a></li>
 			<li><a href='{{url_for('EditModel', model_id=model.id)}}'>Edit Model</a></li>
+			<li><a href='{{url_for('DeleteModel', model_id=model.id)}}'>Delete Model</a></li>
 	</div>
 	{% endfor %}
 	<hr>
