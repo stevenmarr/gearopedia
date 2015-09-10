@@ -1,0 +1,166 @@
+html{background-color: #000000;}
+*{font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, sans-serif;}
+body{background-color: #000000; min-height: 300px }
+
+.container {
+	background-color: #d3d3d3; 
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#d3d3d3), to(#707070)); 
+	min-height: 400px; 
+	max-width: 600px; 
+	margin: 0 auto;}
+
+div#menu {color: #ffffff;}
+.auth {padding-top: 30px; text-align:right}
+.edit  {font-size: 12px; color: #ffffff;}
+.error {color: #ff0000;}
+
+a {color: #ffffff;}
+a:hover{color: #ffffff;text-decoration: none;}
+a:visited{color:#ffffff;}
+h3{color: #ffffff; padding-left: 8px; font-size: 18px}
+img{width: 30%; height: 30%; margin: 15px; max-height: 100px; max-width: 100px}
+li {list-style: none}
+ul {font-size: 18px ;color: #f9ffff}
+input {margin: 5px}
+label {font-size: 16px ;color: #f9ffff; padding-left: 5px}
+#menu_buttons{background-color: #202020; height: 100px; background-color: #d3d3d3; background-image: -webkit-gradient(linear, left top, left bottom, from(#d3d3d3), to(#707070));
+ background-image: -webkit-linear-gradient(top, #d3d3d3, #707070);
+ background-image: -moz-linear-gradient(top, #d3d3d3, #707070);
+ background-image: -ms-linear-gradient(top, #d3d3d3, #707070);
+ background-image: -o-linear-gradient(top, #d3d3d3, #707070);
+ background-image: linear-gradient(to bottom, #d3d3d3, #707070);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#d3d3d3, endColorstr=#707070);
+ 
+ min-width: 90%;
+ height: 65px;
+ margin-top: 5px;
+ margin-bottom: 5px;
+ margin-left: 5%;s
+ margin-right: 5%;
+ border-radius: 20px; 
+ 
+ text-align: center;
+ font-size: 18px;
+}
+
+
+
+#menu_buttons:hover{
+ border:px solid #FFFFFF;
+ background-color: #bababa; background-image: -webkit-gradient(linear, left top, left bottom, from(#bababa), to(#575757));
+ background-image: -webkit-linear-gradient(top, #bababa, #575757);
+ background-image: -moz-linear-gradient(top, #bababa, #575757);
+ background-image: -ms-linear-gradient(top, #bababa, #575757);
+ background-image: -o-linear-gradient(top, #bababa, #575757);
+ background-image: linear-gradient(to bottom, #bababa, #575757);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#bababa, endColorstr=#575757);
+}
+
+#home_button{padding-top: 0 auto; font-size: 30px; padding-right: 14px;text-align: center;
+}
+
+.button{border:px solid #FFFFFF; -webkit-border-radius: px; -moz-border-radius: px;border-radius: px;width:px;font-size:px;font-family:arial, helvetica, sans-serif; padding: 10px 10px 10px 10px; text-decoration:none; display:inline-block; color: #FFFFFF;
+ background-color: #d3d3d3; background-image: -webkit-gradient(linear, left top, left bottom, from(#d3d3d3), to(#707070));
+ background-image: -webkit-linear-gradient(top, #d3d3d3, #707070);
+ background-image: -moz-linear-gradient(top, #d3d3d3, #707070);
+ background-image: -ms-linear-gradient(top, #d3d3d3, #707070);
+ background-image: -o-linear-gradient(top, #d3d3d3, #707070);
+ background-image: linear-gradient(to bottom, #d3d3d3, #707070);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#d3d3d3, endColorstr=#707070);
+ border-radius: 20px;
+ min-width: 90%;
+ height: 65px;
+ margin: 80px:;
+ margin-top: 10px;
+ text-align: center;
+ font-size: 18px;
+}
+
+.button:hover{
+ border:px solid #FFFFFF;
+ background-color: #bababa; background-image: -webkit-gradient(linear, left top, left bottom, from(#bababa), to(#575757));
+ background-image: -webkit-linear-gradient(top, #bababa, #575757);
+ background-image: -moz-linear-gradient(top, #bababa, #575757);
+ background-image: -ms-linear-gradient(top, #bababa, #575757);
+ background-image: -o-linear-gradient(top, #bababa, #575757);
+ background-image: linear-gradient(to bottom, #bababa, #575757);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#bababa, endColorstr=#575757);
+}
+
+
+#button{ border:px solid #FFFFFF; -webkit-border-radius: px; -moz-border-radius: px;border-radius: px;width:px;font-size:px;font-family:arial, helvetica, sans-serif; padding: 10px 10px 10px 10px; text-decoration:none; display:inline-block; color: #FFFFFF;
+ background-color: #d3d3d3; background-image: -webkit-gradient(linear, left top, left bottom, from(#d3d3d3), to(#707070));
+ background-image: -webkit-linear-gradient(top, #d3d3d3, #707070);
+ background-image: -moz-linear-gradient(top, #d3d3d3, #707070);
+ background-image: -ms-linear-gradient(top, #d3d3d3, #707070);
+ background-image: -o-linear-gradient(top, #d3d3d3, #707070);
+ background-image: linear-gradient(to bottom, #d3d3d3, #707070);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#d3d3d3, endColorstr=#707070);
+ border-radius: 20px;
+ min-width: 90%;
+ height: 40px;
+ margin-top: 5px;
+ margin-bottom: 5px;
+ margin-left: 5%;
+ margin-right: 5%;
+ text-align: center;
+ font-size: 18px;
+ padding-top: 10px;
+}
+
+#button:hover{
+ border:px solid #FFFFFF;
+ background-color: #bababa; background-image: -webkit-gradient(linear, left top, left bottom, from(#bababa), to(#575757));
+ background-image: -webkit-linear-gradient(top, #bababa, #575757);
+ background-image: -moz-linear-gradient(top, #bababa, #575757);
+ background-image: -ms-linear-gradient(top, #bababa, #575757);
+ background-image: -o-linear-gradient(top, #bababa, #575757);
+ background-image: linear-gradient(to bottom, #bababa, #575757);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#bababa, endColorstr=#575757);
+}
+#button2{ border:px solid #FFFFFF; -webkit-border-radius: px; -moz-border-radius: px;border-radius: px;width:px;font-size:px;font-family:arial, helvetica, sans-serif; padding: 10px 10px 10px 10px; text-decoration:none; display:inline-block; color: #FFaa00;
+ background-color: #d3d3d3; background-image: -webkit-gradient(linear, left top, left bottom, from(#d3d3d3), to(#707070));
+ background-image: -webkit-linear-gradient(top, #d3d3d3, #707070);
+ background-image: -moz-linear-gradient(top, #d3d3d3, #707070);
+ background-image: -ms-linear-gradient(top, #d3d3d3, #707070);
+ background-image: -o-linear-gradient(top, #d3d3d3, #707070);
+ background-image: linear-gradient(to bottom, #d3d3d3, #707070);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#d3d3d3, endColorstr=#707070);
+ border-radius: 20px;
+ width: 40%;
+ height: 40px;
+ margin-top: 5px;
+ margin-bottom: 5px;
+ margin-left: 55%;
+ margin-right: 5%;
+ text-align: center;
+  font-size: 18px;
+ padding-top: 10px;
+}
+
+#button2:hover{
+ border:px solid #FFFFFF;
+ background-color: #bababa; background-image: -webkit-gradient(linear, left top, left bottom, from(#bababa), to(#575757));
+ background-image: -webkit-linear-gradient(top, #bababa, #575757);
+ background-image: -moz-linear-gradient(top, #bababa, #575757);
+ background-image: -ms-linear-gradient(top, #bababa, #575757);
+ background-image: -o-linear-gradient(top, #bababa, #575757);
+ background-image: linear-gradient(to bottom, #bababa, #575757);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#bababa, endColorstr=#575757);
+}
+#space2 {height: 150px;}
+#space {height: 100px;}
+#name{color: #000000;}
+#description{color: #000000;}
+#signInButton{ border:px solid #FFFFFF; -webkit-border-radius: px; -moz-border-radius: px;border-radius: px;width:px;font-size:px;font-family:arial, helvetica, sans-serif; padding: 10px 10px 10px 10px; text-decoration:none; display:inline-block; color: #FFFFFF;
+ background-color: #d3d3d3; background-image: -webkit-gradient(linear, left top, left bottom, from(#d3d3d3), to(#707070));
+ background-image: -webkit-linear-gradient(top, #d3d3d3, #707070);
+ background-image: -moz-linear-gradient(top, #d3d3d3, #707070);
+ background-image: -ms-linear-gradient(top, #d3d3d3, #707070);
+ background-image: -o-linear-gradient(top, #d3d3d3, #707070);
+ background-image: linear-gradient(to bottom, #d3d3d3, #707070);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#d3d3d3, endColorstr=#707070);
+ border-radius: 20px;
+ min-width: 90%;
+ height: 65px;
+ margin-top: 5px;
+ margin-bottom: 5px;
+ margin-left: 5%;
+ margin-right: 5%;
+ text-align: center;
+ font-size: 23px;
+}
+.field_size1 {min-width: 95%; margin-top: 5px; padding-left: 5px}
+.field_size2 {max-width: 0%; margin-top: 5px}
+

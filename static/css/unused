@@ -1,0 +1,23 @@
+css
+
+@media (max-width: 991px){
+#menu_buttons{height: 65px;   padding-top: 15px; margin-top: 15px;} 
+#home_button {float:left; padding-top: 20px;}
+
+}
+@media (max-width: 485px){
+#menu_buttons{height: 65px;   width: 25%;padding-top: 10px; margin-top: 15px; margin: 0 auto; border-radius: 10px;} 
+#menu_buttons a {font-size: 14px; }
+#home_button {float: none; padding-top: 20px;}
+
+}
+@media (max-width: 470px){
+	#menu_buttons {width: 50%; margin-left: 2px; margin-right: 2px;}
+	#menu_buttons a {font-size: 14px;}
+#home_button {float: none; padding-top: 20px;}
+}
+
+@media (max-width: 392px){
+#menu_buttons{float: right; width: 50%;}
+
+}

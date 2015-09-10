@@ -1,19 +1,53 @@
 {% extends "main.html" %}
 {% block maincontent %}
-
-	{% for model in models %}
-	<div>
-		<p>{{model.manufacturer}} {{model.name}}</p>
-			<li>{{model.description}}</li>
-			<li><a href='{{model.product_url}}'>Product Website</a></li>
-			<li><a href='{{model.manual_url}}'>Manual</a></li>
-			<li><a href='{{url_for('EditModel', model_id=model.id)}}'>Edit Model</a></li>
-			<li><a href='{{url_for('DeleteModel', model_id=model.id)}}'>Delete Model</a></li>
-	</div>
-	{% endfor %}
-	<hr>
-	<div>
-		<a href='{{url_for('AddModel', category_id = category_id)}}'>Add Model</a>
-	</div>
-	</hr>
+{% for model in models %}
+<h3>
+   <div class="row">
+      <div class="col-md-3">
+         {{model.manufacturer}} 
+      </div>
+      <div class="col-md-3">
+         {{model.name}} 
+      </div>
+      <div class="col-md-3">
+         <img src="{{model.image_path}}" >
+      </div>
+   </div>
+</h3>
+<div class ="row">
+   <div class="col-md-12">
+      <a id="button" href='{{model.product_url}}'>Product Website </a>
+      <a id="button" href='{{model.manual_url}}'>Manual URL</a>
+   </div>
+</div>
+{% if login_session['username'] %}
+<div class="row">
+<div class="col-md-12">
+   {% if files %}
+   {% for file in files %}
+   {% if file.model_id == model.id %}
+   <div class="row">
+      <div class="col-md-12">
+         <a id="button" href='{{file.path}}'>{{file.file_type}}</a>
+      </div>
+   </div>
+   {% endif %}
+   {% endfor %}
+   {% endif %}
+   <div class="row">
+      <div class="col-md-6">
+         <a id="button2"  href='{{url_for('editmodel', model_id=model.id)}}'>Edit</a>
+      </div>
+      <div class="col-md-6">
+         <a id="button2" href='{{url_for('deletemodel', model_id=model.id)}}'>Del</a>
+      </div>
+   </div>
+</div>
+{% endif %}
+{% endfor %}
+{% if login_session['username'] %}
+<div class="col-md-12">
+   <a id="button" href='{{url_for('addmodel', category_id = category_id)}}'>Add New Model</a>
+</div>
+{% endif %}
 {% endblock %}

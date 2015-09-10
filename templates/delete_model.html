@@ -1,9 +1,11 @@
 {% extends "main.html" %}
 {% block maincontent %}
-	<div>
-		<form action='{{url_for('DeleteModel', model_id=model.id)}}' method="POST" enctype='multipart/form-data'>
-			<p><strong>Model to delete: </strong>{{ model.name }}</p>
-			<input type="submit" value="Confirm Delete">
-		</form>
-	</div>
+{% if login_session['username'] %}
+<div>
+   <form action='{{url_for('deletemodel', model_id=model.id)}}' method="POST" enctype='multipart/form-data'>
+   <h3>Model to delete: {{ model.name }}</h3>
+   <input id='button' type="submit" value="Confirm Delete">
+   </form>
+</div>
+{% endif %}
 {% endblock %}

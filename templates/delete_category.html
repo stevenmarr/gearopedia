@@ -1,9 +1,9 @@
 {% extends "main.html" %}
 {% block maincontent %}
-	<div>
-		<form action='{{url_for('DeleteGearCategory', category_id = category.id)}}' method="POST" enctype='multipart/form-data'>
-			<p><strong>Category to delete: </strong>{{ category.name }}</p>
-			<input type="submit" value="Confirm Delete">
-		</form>
-	</div>
+<div>
+   <form action='{{url_for('deletegearcategory', category_id = category.id)}}' method="POST" enctype='multipart/form-data'>
+   <p><strong>Category to delete: </strong>{{ category.name }}</p>
+   <input id="button" type="submit" value="Confirm Delete">
+   </form>
+</div>
 {% endblock %}

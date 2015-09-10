@@ -22,8 +22,6 @@ API endpoints
 
 	JSON:
 	http://localhost:8080/json
-	XML
-	http://localhost:8080/xml
 
 Steven Marr
 stevenmarr@me.com

@@ -1,79 +1,98 @@
 {% extends "main.html" %}
 {% block maincontent %}
-	<div>
-		<p><strong>Category:</strong> {{category.name}}</p>
-	<div>
-		<form action='{{url_for('AddModel', category_id=category.id)}}' method="POST" enctype='multipart/form-data'>
-			<p>
-			<!--MANUFACTURER-->
-			<div>
-				{{ form.manufacturer.label }}  {{ form.manufacturer(class="field size1")  }} 
-			</div>
-			{% if form.manufacturer.errors %}
-				<ul class="errors">
-				{% for error in form.manufacturer.errors %}
-					{{ error }}
-				{% endfor %}
-				</ul>
-			{% endif %}
-			</p>
-			<!--MODEL-->
-			<p>
-			<div>
-				{{ form.name.label }}  {{ form.name(class="field size1")  }} 
-			</div>
-			{% if form.name.errors %}
-				<ul class="errors">
-				{% for error in form.name.errors %}
-					{{ error }}
-				{% endfor %}
-				</ul>
-			{% endif %}
-			</p>
-			<!--DESCRIPTION-->
-			<p>
-			<div>
-				{{ form.description.label }}  {{ form.description(class="field size2")  }} 
-			</div>
-			{% if form.description.errors %}
-				<ul class="errors">
-				{% for error in form.description.errors %}
-					{{ error }}
-				{% endfor %}
-				</ul>
-			{% endif %}
-			</p>
-			<!--MODEL URL-->
-			<p>
-			<div>
-				{{ form.product_url.label }}  {{ form.product_url(class="field size1")  }} 
-			</div>
-			{% if form.product_url.errors %}
-				<ul class="errors">
-				{% for error in form.product_url.errors %}
-					{{ error }}
-				{% endfor %}
-				</ul>
-			{% endif %}
-			</p>
-			<!--MANUAL URL-->
-			<p>
-			<div>
-				{{ form.manual_url.label }}  {{ form.manual_url(class="field size1")  }} 
-			</div>
-			{% if form.manual_url.errors %}
-				<ul class="errors">
-				{% for error in form.manual_url.errors %}
-					{{ error }}
-				{% endfor %}
-				</ul>
-			{% endif %}
-			</p>
-			<p>
-				<input type='file'd name='file'>
-			</p>
-			
-			<input type="submit" value="Submit">
-		</form>
-	</div>
+<div>
+<p><strong>Category:</strong> {{category.name}}</p>
+<div>
+   <form action='{{url_for('addmodel', category_id=category.id)}}' method="POST" enctype='multipart/form-data'>
+   <p>
+      <!--MANUFACTURER-->
+   <div class="col-md-6">
+      {{ form.manufacturer.label }}  
+   </div>
+   <div class="col-md-6">
+      {{ form.manufacturer(class="field size1")  }}
+   </div>
+   {% if form.manufacturer.errors %}
+   <ul class="errors">
+      {% for error in form.manufacturer.errors %}
+      {{ error }}
+      {% endfor %}
+   </ul>
+   {% endif %}
+   </p>
+   <!--MODEL-->
+   <p>
+   <div>
+      {{ form.name.label }}  {{ form.name(class="field size1")  }}
+   </div>
+   {% if form.name.errors %}
+   <ul class="errors">
+      {% for error in form.name.errors %}
+      {{ error }}
+      {% endfor %}
+   </ul>
+   {% endif %}
+   </p>
+   <!--DESCRIPTION-->
+   <p>
+   <div>
+      {{ form.description.label }}  {{ form.description(class="field size2")  }}
+   </div>
+   {% if form.description.errors %}
+   <ul class="errors">
+      {% for error in form.description.errors %}
+      {{ error }}
+      {% endfor %}
+   </ul>
+   {% endif %}
+   </p>
+   <!--MODEL URL-->
+   <p>
+   <div>
+      {{ form.product_url.label }}  {{ form.product_url(class="field size1")  }}
+   </div>
+   {% if form.product_url.errors %}
+   <ul class="errors">
+      {% for error in form.product_url.errors %}
+      {{ error }}
+      {% endfor %}
+   </ul>
+   {% endif %}
+   </p>
+   <hr>
+   <!--IMAGE UPLOAD-->
+   <p>
+   <div>
+      {{ form.image.label }}  {{ form.image(class="field size1")  }}
+   </div>
+   {% if form.image.errors %}
+   <ul class="errors">
+      {% for error in form.image.errors %}
+      {{ error }}
+      {% endfor %}
+   </ul>
+   {% endif %}
+   </p>
+   <input type='file' name='image'>
+   <!--FILE UPLOAD-->
+   <p>
+   <div>
+      {{ form.file_type.label }}  {{ form.file_type(class="field size1")  }}
+   </div>
+   {% if form.file_type.errors %}
+   <ul class="errors">
+      {% for error in form.file_type.errors %}
+      {{ error }}
+      {% endfor %}
+   </ul>
+   {% endif %}
+   </p>
+   <input type='file' name='file'>
+   </p>
+   </hr>
+   <hr>
+   <input type="submit" value="Submit">
+   </form>
+   </hr>
+</div>
 {% endblock %}
