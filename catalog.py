@@ -25,18 +25,20 @@ import json
 import requests
 import os
 
+    
 app = Flask(__name__)
-engine = create_engine('sqlite:///gear_wiki.db')
+
+engine = create_engine('postgresql://postgres:d@+@@localhost/gearwiki')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
-CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']
+CLIENT_ID = json.loads(open('/var/www/gear-wiki/client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = 'Gear Wiki'
 
-UPLOAD_FOLDER = './files/uploads'
-UPLOAD_IMG_FOLDER = './files/img'
+UPLOAD_FOLDER = '/home/vagrant/files/uploads'
+UPLOAD_IMG_FOLDER = '/home/vagrant/files/img'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'zip', 'dmg'}
 ALLOWED_IMG_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -79,10 +81,11 @@ def createuser(login):
 
 def getuserid(email):
     """For an email address return the user_id"""
-
-    user = session.query(Users).filter_by(email=email).one()
-    return user.id
-
+    try:
+        user = session.query(Users).filter_by(email=email).one()
+        return user.id
+    except:
+       return None
 
 def getuserinfo(user_id):
     """For a user_id return the user"""
@@ -91,12 +94,14 @@ def getuserinfo(user_id):
     return user
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET'])
 def showlogin():
     """Login user"""
-
+    #logging.info('Decorator ran')
     state = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in xrange(32))
     login_session['state'] = state
+    print "hello"
+	#return render_template('main.html')
     return render_template('login.html', STATE=state,
                            login_session=login_session)
 
@@ -120,7 +125,7 @@ def gconnect():
 
         # Upgrade the authorization code into a credentials object
 
-        oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='')
+        oauth_flow = flow_from_clientsecrets('/var/www/gear-wiki/client_secrets.json', scope='')
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
     except FlowExchangeError:
@@ -428,21 +433,29 @@ def addmodel(category_id):
 
         model_file = request.files['file']
         if model_file:
+	    try:
+	        add_file(model_file, form.file_type.data, model.id)
+	        flash('File upload successful')
+	    except TypeError:
+		flash('File type incorrect')
+	    except OSError:
+		flash('File upload error')
+	    
 
             # Check extensions to make sure file is of correct type
 
-            if allowed_file(model_file.filename):
+           # if allowed_file(model_file.filename):
 
                 # Add file to DB
 
-                if add_file(model_file, form, model.id):
-                    flash('File upload successful.')
-            else:
+            #    if add_file(model_file, form.file_type.data, model.id):
+             #       flash('File upload successful.')
+           # else:
 
                 # Flash error if image type is incorrect
 
-                flash('File type incorrect must be of type %s'
-                      % list(ALLOWED_EXTENSIONS))
+            #    flash('File type incorrect must be of type %s'
+             #         % list(ALLOWED_EXTENSIONS))
 
         return redirect(url_for('viewmodels',
                                 category_id=model.category_id))
@@ -481,7 +494,7 @@ def editmodel(model_id):
         return redirect('/login')
 
     # Query for model
-
+    
     model = session.query(GearModels).filter_by(id=model_id).one()
 
     # Handle POST reuests
@@ -532,23 +545,15 @@ def editmodel(model_id):
 
         model_file = request.files['file']
         if model_file:
+            flash ("sent file_type %s" % form.file_type.data)
+	    try:
+                add_file(model_file, form.file_type.data, model.id, edit=True)
+                flash('File upload successful')
+            except TypeError:
+                flash('File type incorrect')
+            except OSError:
+                flash('File upload error')
 
-            # Check extensions to make sure file is of correct type....
-
-            if allowed_file(model_file.filename):
-
-                # Add file to DB
-
-                if add_file(model_file, form.file_type.data, model.id):
-                    flash('File upload successful.')
-                else:
-                    flash('File upload failed %s' % form.file_type.data)
-            else:
-
-                # Flash error if file type is incorrect
-
-                flash('File type incorrect must be of type %s'
-                      % list(ALLOWED_EXTENSIONS))
         return redirect(url_for('viewmodels',
                                 category_id=model.category_id))
     else:
@@ -578,8 +583,16 @@ def deletemodel(model_id):
 
     if request.method == 'POST':
 
-        # Delete from DB
+        # Delete file/image entries for model
+	files = session.query(UploadedFiles).filter_by(model_id=model_id).all()
+        map(delete_file, [f.id for f in files])
+	images = session.query(Images).filter_by(model_id=model_id).all()
+	for i in images:
+	    session.delete(i)
+	    session.commit()
 
+        # Delete model from DB
+               
         session.delete(model)
         session.commit()
         flash('Model %s deleted' % model.name)
@@ -630,7 +643,7 @@ def add_image(image, model_id):
 
         new_image.model_id = model_id
         new_image.user_id = login_session['user_id']
-        new_image.path = url_for('uploaded_img', filename=filename)
+        new_image.path = url_for('path', filename=filename)
 
         # Add to DB
 
@@ -638,56 +651,51 @@ def add_image(image, model_id):
         session.commit()
         return new_image.path
     except:
-
         # Return path of default image
+	return None
+        #return url_for('uploaded_img', filename='image_missing.png')
 
-        return url_for('uploaded_img', filename='image_missing.png')
 
-
-def add_file(upload_file, file_type, model_id):
+def add_file(upload_file, file_type, model_id, edit=None):
     """given a file, a file type and a model id place the file in the database, replacing existing file_types.
 ........Return the path to the new file"""
-
+    
     # Query existing files
-
-    model_files = \
-        session.query(UploadedFiles).filter_by(model_id=model_id)
-
-    # If model already has a matching file type uploaded delete old record
-
-    for model_file in model_files:
-        if model_file.file_type == file_type:  # overwrite existing entry
-            session.delete(model_file)
-            session.commit()
+    if edit:	
+        model_files = \
+	        session.query(UploadedFiles).filter_by(model_id=model_id)
+	map(delete_file, [model_file.id for model_file in model_files if model_file.file_type == FILE_TYPE[file_type]])
 
     # Create a secure filename
-
+    if not  allowed_file(upload_file.filename): raise TypeError
     filename = secure_filename(upload_file.filename)
+    if not filename: raise TypeError
+
+    # Save file
+    upload_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
     # Create new UploadedFiles object
-
     model_file = UploadedFiles()
 
-    # Populate Images fields
-
+    # Populate fields
     model_file.file_name = filename
     model_file.file_type = FILE_TYPE[file_type]
     model_file.model_id = model_id
     model_file.user_id = login_session['user_id']
-
-    # Save file
-
-    upload_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     model_file.path = url_for('uploaded_file', filename=filename)
 
     # Add to DB
-
     session.add(model_file)
     session.commit()
     return model_file.path
 
 
+def delete_file(id):
+    uploaded_file = session.query(UploadedFiles).filter_by(id=id).one()
+    os.remove(os.path.join(app.config['UPLOAD_FOLDER'], uploaded_file.file_name))
+    session.delete(uploaded_file)
+    session.commit()    
+	
 if __name__ == '__main__':
-    app.secret_key = 'super-secret-key'
-    app.debug = True
-    app.run(host='0.0.0.0', port=8080)
+    app.run(use_debugger=True, debug=app.debug,
+            use_reloader=True)

@@ -23,6 +23,7 @@
 {% if login_session['username'] %}
 <div class="row">
 <div class="col-md-12">
+   
    {% if files %}
    {% for file in files %}
    {% if file.model_id == model.id %}
@@ -33,7 +34,7 @@
    </div>
    {% endif %}
    {% endfor %}
-   {% endif %}
+   {% endif %}	  
    <div class="row">
       <div class="col-md-6">
          <a id="button2"  href='{{url_for('editmodel', model_id=model.id)}}'>Edit</a>
@@ -45,9 +46,7 @@
 </div>
 {% endif %}
 {% endfor %}
-{% if login_session['username'] %}
 <div class="col-md-12">
    <a id="button" href='{{url_for('addmodel', category_id = category_id)}}'>Add New Model</a>
 </div>
-{% endif %}
 {% endblock %}

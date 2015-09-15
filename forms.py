@@ -35,4 +35,4 @@ class ModelForm(Form):
 
     file_type = SelectField(u'File type', choices=[(key,
                             FILE_TYPE[key]) for key in
-                            FILE_TYPE.keys()])
+                            sorted(FILE_TYPE.keys())])

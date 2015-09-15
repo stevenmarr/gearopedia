@@ -84,5 +84,6 @@ class UploadedFiles(Base):
     user = relationship(Users)
 
 
-engine = create_engine('sqlite:///gear_wiki.db')
+#engine = create_engine('sqlite:///gear_wiki.db')
+engine = create_engine('postgresql://postgres:d@+@@localhost/gearwiki')
 Base.metadata.create_all(engine)
