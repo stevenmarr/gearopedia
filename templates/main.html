@@ -9,8 +9,17 @@
       <div class="container">
          <div class="row">
             <div class = "col-md-12">
-               <h1>Gear Wikipedia</h1>
-            </div>
+               <h1>Gear'opedia
+            
+	    {% if login_session['username'] %}
+            
+		<img src="{{login_session['picture']}}" style = "width: 50px; height: 50px;border-radius:\
+         	50px;-webkit-border-radius: 50px;-moz-border-radius: 50px; float: right; margin-top: 5px">
+	    	</h1>
+		</div>
+	    {% else %}
+	    </div>
+	    {% endif %}	
          </div>
          <!-- messaging -->
          {% with messages = get_flashed_messages() %}

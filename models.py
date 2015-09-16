@@ -85,5 +85,5 @@ class UploadedFiles(Base):
 
 
 #engine = create_engine('sqlite:///gear_wiki.db')
-engine = create_engine('postgresql://postgres:d@+@@localhost/gearwiki')
+engine = create_engine('postgresql://postgres:marr@localhost/gearopedia')
 Base.metadata.create_all(engine)

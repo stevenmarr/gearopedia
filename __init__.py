@@ -28,17 +28,17 @@ import os
     
 app = Flask(__name__)
 
-engine = create_engine('postgresql://postgres:d@+@@localhost/gearwiki')
+engine = create_engine('postgresql://postgres:marr@localhost/gearopedia')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
-CLIENT_ID = json.loads(open('/var/www/gear-wiki/client_secrets.json', 'r').read())['web']['client_id']
-APPLICATION_NAME = 'Gear Wiki'
+CLIENT_ID = json.loads(open('/var/www/gearopedia/gearopedia/client_secrets.json', 'r').read())['web']['client_id']
+APPLICATION_NAME = 'Gearopedia'
 
-UPLOAD_FOLDER = '/home/vagrant/files/uploads'
-UPLOAD_IMG_FOLDER = '/home/vagrant/files/img'
+UPLOAD_FOLDER = '/var/www/gearopedia/uploads'
+UPLOAD_IMG_FOLDER = '/var/www/gearopedia/img'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'zip', 'dmg'}
 ALLOWED_IMG_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -97,11 +97,8 @@ def getuserinfo(user_id):
 @app.route('/login', methods=['GET'])
 def showlogin():
     """Login user"""
-    #logging.info('Decorator ran')
     state = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in xrange(32))
     login_session['state'] = state
-    print "hello"
-	#return render_template('main.html')
     return render_template('login.html', STATE=state,
                            login_session=login_session)
 
@@ -125,7 +122,7 @@ def gconnect():
 
         # Upgrade the authorization code into a credentials object
 
-        oauth_flow = flow_from_clientsecrets('/var/www/gear-wiki/client_secrets.json', scope='')
+        oauth_flow = flow_from_clientsecrets('/var/www/gearopedia/gearopedia/client_secrets.json', scope='')
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
     except FlowExchangeError:
