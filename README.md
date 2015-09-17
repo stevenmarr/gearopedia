@@ -8,27 +8,23 @@ Getting started
 0) Setup the enviroment
 	
 Download & install Virtual Box (https://www.virtualbox.org/wiki/Downloads), Vagrant (https://www.vagrantup.com/downloads)
-then from the terminal navigate to home folder and run
 
-		mkdir catalog
-		cd catalog
-		vagrant init ubuntu/trusty64
-		vagrant up
+create a new directory to run the project from like 
+	~/catalog
 
-after bootup
-
-		vagrant ssh 
-		
-First we we update the virual machine (this should be done at each boot-up
-
-	sudo apt-get update
-	sudo apt-get upgrade
+clone the virual machine to /catalog
+	git clone https://github.com/udacity/fullstack-nanodegree-vm.git
 	
-Now we will install the software on our virtual machine necessary to install the python packages to run our web app
+navigate to the directory, bootup the machine and login
+	cd ~/catalog/fullstack-nanodegree-vm/vagrant
+	sudo vagrant up
+	sudo vagrant ssh
 
-	sudo apt-get install python-pip
-
-Install python libraries needed for app to run
+navigate to shared directory
+	cd /vagrant/catalog
+	
+clone the project
+	git clone 
 	
 	sudo pip install flask oauth2client sqlalchemy wtforms 
 
