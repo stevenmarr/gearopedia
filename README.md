@@ -10,14 +10,14 @@ Getting started
 	download & install Vagrant (https://www.vagrantup.com/downloads)
 	from the terminal 
 	navigate to home folder
-		> mkdir catalog
-		> cd catalog
-		> vagrant init ubuntu/trusty64
-		> vagrant up
+		mkdir catalog
+		cd catalog
+		vagrant init ubuntu/trusty64
+		vagrant up
 	after bootup
-		> vagrant ssh 
+		vagrant ssh 
 		
-		$ 
+		 
 	clone the repo https://github.com/udacity/fullstack-nanodegree-vm.git where you will be running the application from [APP_DIRECTORY]
 
 	navigate to [APP_DIRECTORY] clone the repo:
