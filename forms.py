@@ -14,8 +14,6 @@ class AddCategoryForm(Form):
 
     name = StringField(u'Name', [validators.Required(),
                        validators.Length(1, 20)])
-    description = StringField(u'Description', [validators.Optional(),
-                              validators.Length(0, 800)])
 
 
 class ModelForm(Form):
@@ -35,4 +33,4 @@ class ModelForm(Form):
 
     file_type = SelectField(u'File type', choices=[(key,
                             FILE_TYPE[key]) for key in
-                            sorted(FILE_TYPE.keys())])
+                            FILE_TYPE.keys()])
