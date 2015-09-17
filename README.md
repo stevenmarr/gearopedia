@@ -8,12 +8,15 @@ Getting started
 0) Setup the enviroment
 	
 Download & install Virtual Box (https://www.virtualbox.org/wiki/Downloads), Vagrant (https://www.vagrantup.com/downloads)
-then from the terminal navigate to home folder
+then from the terminal navigate to home folder and run
+
 		mkdir catalog
 		cd catalog
 		vagrant init ubuntu/trusty64
 		vagrant up
-	after bootup
+
+after bootup
+
 		vagrant ssh 
 		
 		 
