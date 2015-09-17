@@ -1,11 +1,31 @@
-gear-wiki
+gearopedia
 ===================
 
 A catalog of production equipment sorted into categories with user authentication
 
 Getting started
+0) Setup the enviroment
+	Download and Clone
+	download & install Virtual Box (https://www.virtualbox.org/wiki/Downloads)
+	download & install Vagrant (https://www.vagrantup.com/downloads)
+	from the terminal 
+	navigate to home folder
+		> mkdir catalog
+		> cd catalog
+		> vagrant init ubuntu/trusty64
+		> vagrant up
+	after bootup
+		> vagrant ssh 
+		
+		$ 
+	clone the repo https://github.com/udacity/fullstack-nanodegree-vm.git where you will be running the application from [APP_DIRECTORY]
+
+	navigate to [APP_DIRECTORY] clone the repo:
+	https://github.com/stevenmarr/gearopedia.git
+	Setup the enviroment
 
 1) Run the application
+	download Vagrant
 
 	python application.py
 
