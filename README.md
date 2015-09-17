@@ -6,7 +6,7 @@ A catalog of production equipment sorted into categories with user authenticatio
 Getting started
 
 0) Setup the enviroment
-	Download and Clone
+	
 	download & install Virtual Box (https://www.virtualbox.org/wiki/Downloads)
 	download & install Vagrant (https://www.vagrantup.com/downloads)
 	from the terminal 
