@@ -7,9 +7,8 @@ Getting started
 
 0) Setup the enviroment
 	
-download & install Virtual Box (https://www.virtualbox.org/wiki/Downloads)
-download & install Vagrant (https://www.vagrantup.com/downloads)
-from the terminal navigate to home folder
+Download & install Virtual Box (https://www.virtualbox.org/wiki/Downloads), Vagrant (https://www.vagrantup.com/downloads)
+then from the terminal navigate to home folder
 		mkdir catalog
 		cd catalog
 		vagrant init ubuntu/trusty64
