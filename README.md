@@ -4,6 +4,7 @@ gearopedia
 A catalog of production equipment sorted into categories with user authentication
 
 Getting started
+
 0) Setup the enviroment
 	Download and Clone
 	download & install Virtual Box (https://www.virtualbox.org/wiki/Downloads)
