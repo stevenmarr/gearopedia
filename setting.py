@@ -3,27 +3,31 @@ import json
 
 
 #APPLICATION ********************
-APPLICATION_NAME = 'Gear Wiki'
+APPLICATION_NAME = 'Gearopedia'
+#uncomment for development server 
 #CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']
 #SECRET_KEY = json.loads(open('secrets.json', 'r').read())['app']['secret_key']
-CLIENT_ID = json.loads(open('/var/www/gearopedia/gearopedia/client_secrets.json', 'r').read())['web']['client_id']
-SECRET_KEY = json.loads(open('/var/www/gearopedia/gearopedia/secrets.json', 'r').read())['app']['secret_key']
+#uncomment for production server 
+#CLIENT_ID = json.loads(open('/var/www/gearopedia/gearopedia/client_secrets.json', 'r').read())['web']['client_id']
+#SECRET_KEY = json.loads(open('/var/www/gearopedia/gearopedia/secrets.json', 'r').read())['app']['secret_key']
 
 #DATA BASE ************************
-#path for database
-#for local production, comment for server
+#uncomment for development server 
 #DATA_BASE = 'sqlite:///gear_wiki.db'
-#for server, comment for local production
-DB_PASS = json.loads(open('/var/www/gearopedia/gearopedia/secrets.json', 'r').read())['app']['database_pass']
-DATA_BASE = 'postgresql://postgres:%s@localhost/gearopedia' % DB_PASS
+#uncomment for production server 
+#DB_PASS = json.loads(open('/var/www/gearopedia/gearopedia/secrets.json', 'r').read())['app']['database_pass']
+#DATA_BASE = 'postgresql://postgres:%s@localhost/gearopedia' % DB_PASS
 
 
 #FILES ***************************
-#folder paths
-#UPLOAD_FOLDER = './files/uploads'
-#UPLOAD_IMG_FOLDER = './files/img'
-UPLOAD_FOLDER = '/var/www/gearopedia/files/uploads'
-UPLOAD_IMG_FOLDER = '/var/www/gearopedia/files/img'
+#uncomment for development server 
+#UPLOAD_FOLDER = '~/catalog/files/uploads'
+#UPLOAD_IMG_FOLDER = '~/catalog/files/img'
+#uncomment for production server
+#UPLOAD_FOLDER = '/var/www/gearopedia/files/uploads'
+#UPLOAD_IMG_FOLDER = '/var/www/gearopedia/files/img'
+
+
 #permitted image and file extensions
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'zip', 'dmg'}
 ALLOWED_IMG_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
