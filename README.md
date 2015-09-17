@@ -55,24 +55,37 @@ Paste the following objects in and fill in the constants, save and exit:
 
 	{"app":{"secret_key":"SECRET_KEY"}}
 	
-Next we need to tweak our setting.py file for a local development enviroment, uncomment the following lines from settings.py
+Next we need to tweak our setting.py file for a local development enviroment, open the setting.py file
 	
+	sudo nano ~/catalog/gearopedia setting.py
+	
+Ucomment the lines with a *
+	
+	...
+	#APPLICATION ********************
+	APPLICATION_NAME = 'Gearopedia'
+	#uncomment for development server 
+	*#CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']
+	*#SECRET_KEY = json.loads(open('secrets.json', 'r').read())['app']['secret_key']
+	...
+	#DATA BASE ************************
+	#uncomment for development server 
+	*#DATA_BASE = 'sqlite:///gearopedia.db'
+	...
+	#FILES ***************************
+	#uncomment for development server 
+	*#UPLOAD_FOLDER = '~/catalog/files/uploads'
+	*#UPLOAD_IMG_FOLDER = '~/catalog/files/img'
+	...
+	
+Create the folder to host our files
+	
+	sudo mkdir ~/catalog/files
+	sudo mkdir ~/catalog/files/img
+	sudo mkdir ~/catalgo/files/uploads
 	
 
-
 	
-
-
-	
-
-
-		
-		 
-	clone the repo https://github.com/udacity/fullstack-nanodegree-vm.git where you will be running the application from [APP_DIRECTORY]
-
-	navigate to [APP_DIRECTORY] clone the repo:
-	https://github.com/stevenmarr/gearopedia.git
-	Setup the enviroment
 
 1) Run the application
 	download Vagrant
