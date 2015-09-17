@@ -34,13 +34,35 @@ Install python libraries needed for app to run
 
 Install git
 	
-	sudo apt-get install git
+	sudo apt-get install git 
 	
 Create directory for catalog
 
 	mkdir ~/catalog
 	cd ~/catalog
-	sudo git clone 
+	sudo git clone https://github.com/stevenmarr/gearopedia.git
+	cd gearopedia
+	
+In order for authorization to work we must create a Google Developers Console project and client ID, instruction can be found here https://developers.google.com/identity/sign-in/web/devconsole-project.  After completing and downloading setup download the client_secretes.json file, open the file and copy the object.  In the terminal run:
+
+	sudo nano ~/catalog/gearopedia client_secrets.json
+	
+Paste the contents from the clipboard into the file, save and exit. Next we will create the secrets.json file and populate its contents.
+
+	sudo nano ~/catalog/gearopedia secrets.json
+
+Paste the following objects in and fill in the constants, save and exit:
+
+	{"app":{"secret_key":"SECRET_KEY"}}
+	
+Next we need to tweak our setting.py file for a local development enviroment, uncomment the following lines from settings.py
+	
+	
+
+
+	
+
+
 	
 
 
