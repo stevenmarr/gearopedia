@@ -1,57 +1,144 @@
 <!DOCTYPE html>
 <html>
-   <head>
-      <meta name="viewport" content = "width=device-width, inital-scale=1">
-      <link rel="stylesheet" href="/static/css/bootstrap.min.css">
-      <link rel="stylesheet" href="/static/css/style.css">
-   </head>
-   <body>
-      <div class="container">
+<head>
+    <meta content="width=device-width, inital-scale=1" name="viewport">
+    <meta content="profile email" name="google-signin-scope">
+    <meta content={{CLIENT_ID}}
+    name="google-signin-client_id">
+    <script async="" defer src="https://apis.google.com/js/platform.js"></script>
+    <script src=
+    "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src=
+    "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+   <script>
+      
+      function onSignIn(googleUser) {
+                 var id_token = googleUser.getAuthResponse().id_token;
+                 var xhr = new XMLHttpRequest();
+                  <!--xhr.open('POST', 'http://localhost:8080/tokensignin');-->
+		  xhr.open('POST', 'http://ec2-52-27-153-241.us-west-2.compute.amazonaws.com/tokensignin');
+                  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                  xhr.onload = function() {
+                    console.log('Signed in as: ' + xhr.responseText);
+                    
+                  };
+                  xhr.send('idtoken=' + id_token);
+               }
+               function signOut() { 
+                  var auth2 = gapi.auth2.getAuthInstance();
+                  user = auth2.currentUser.get()
+                  id_token = auth2.currentUser.get().getAuthResponse().id_token
+                  var xhr = new XMLHttpRequest();
+		  <!--xhr.open('POST', 'http://localhost:8080/tokensignout');-->
+                  xhr.open('POST', 'http://ec2-52-27-153-241.us-west-2.compute.amazonaws.com/tokensignout');                   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                  xhr.onload = function() {
+                    console.log('Signed out: ')// + xhr.responseText);
+                  };
+                  xhr.send('idtoken=' + id_token);
+                  auth2.signOut().then(function () {
+                     console.log('User signed out.');
+                     setTimeout(function() {
+                     window.location.href = window.location.pathname;
+                     },400);
+                   });
+               }
+               
+                            
+   </script>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+
+    <title>
+    </title>
+</head>
+
+<body>
+    <div class="container">
+
          <div class="row">
-            <div class = "col-md-12">
-               <h1>Gear'opedia
+            <div class="col-xs-6 col-md-3">
+                <h3>Gearopedia</h3>
+            </div>
             
-	    {% if login_session['username'] %}
             
-		<img src="{{login_session['picture']}}" style = "width: 50px; height: 50px;border-radius:\
-         	50px;-webkit-border-radius: 50px;-moz-border-radius: 50px; float: right; margin-top: 5px">
-	    	</h1>
-		</div>
-	    {% else %}
-	    </div>
-	    {% endif %}	
-         </div>
-         <!-- messaging -->
-         {% with messages = get_flashed_messages() %}
-         {% if messages %}
-         <div class="row">
-            <div class = "col-md-12"
-            <ul>
-               {% for message in messages %}
-               <li class="error"><strong>{{ message }}</strong></li>
-               {% endfor %}
-            </ul>
-         </div>
+                     
+                     {% if login_session['name'] %} 
+                     <div class="col-xs-6 col-md-3">
+                     <div style="margin-top:20px">
+                     <div class="g-signin2" data-onsuccess="onSignIn" data-theme="light" >
+                     
+                     </div>
+                     </div>
+                  </div>
+                  <div class="col-xs-6 col-md-3">
+                     <img class="img-circle" src="{{login_session['picture']}}" style="height:50px; width:50px">  
+                  </div>
+                     {% else %}
+                 <div class="col-xs-6" col-md-3>
+                     <div style="margin-top:20px">
+                     <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark" >
+                     
+                     </div>
+                     </div>
+                  </div>
+                     {% endif %}
+
+                  
+            
+             <!-- drop down menu -->
+            <div class="col-xs-6 col-md-3" style="height:80px; padding-top:20px"">
+                <div>
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle"
+                    data-toggle="dropdown" type=
+                    "button">Menu<span class=
+                    "caret"></span></button>
+
+                    <ul class="dropdown-menu" style="min-width:100px; font-size:18px">
+                        <li>
+                            <a href="{{url_for('defaultgearcategories')}}">Home</a>
+                        </li>
+                        <li>
+                            {% if login_session['name'] %}  
+                            <a href="#" onclick="signOut();">Logout</a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+    
+       </div>
       </div>
-      {% endif %}
-      {% endwith %}
-      <div class="row">
-         <div class="col-md-6">
-            <a id="button" href='{{url_for('defaultgearcategories')}}'>Home</a>
-         </div>
-         <div class="col-md-6">
-            {% if login_session['username'] %}
-            <a id="button" href='/gdisconnect'>Logout</a>
-            {% else %}
-            <a id="button" href='/login'>Login</a>
-            {% endif %}
-         </div>
-      </div>
-      <hr>
-      {% block maincontent %}
-      {% endblock %}
-      </div>
-      </div><!--close row-->
-      </div><!--close container-->
-   </body>
+        <!-- messaging -->
+        {% with messages = get_flashed_messages() %} {% if messages %}
+
+        <div class="row">
+            <div class="col-sm-12">
+                <ul>
+                    <li style="list-style: none">
+                     {% for message in messages%}
+                    </li>
+
+
+                    <li class="error"><strong>{{ message }}</strong>
+                    </li>
+
+
+                    <li style="list-style: none">{% endfor %}</li>
+                </ul>
+            </div>
+        </div>
+        {% endif %} {% endwith %}
+        
+        <div class="row">
+            <div class ='col-sm-6'>
+            </div>
+                    
+            
+       
+        </div>
+   <hr>
+    {% block maincontent %} {% endblock %} <!--close row-->
+     <!--close container-->
+</body>
 </html>

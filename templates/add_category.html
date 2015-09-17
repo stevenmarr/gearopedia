@@ -25,21 +25,6 @@
       </ul>
       {% endif %}
    </div>
-   <div class="row">
-      <div class="col-md-3">
-         {{ form.description.label }}  
-      </div>
-      <div class="col-md-9">
-         {{ form.description(class="field_size1")  }}
-      </div>
-      {% if form.description.errors %}
-      <ul class="errors">
-         {% for error in form.description.errors %}
-         {{ error }}
-         {% endfor %}
-      </ul>
-      {% endif %}
-   </div>
    <input id="button" type="submit" value="Submit">
    </form>
 </div>

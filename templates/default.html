@@ -2,25 +2,26 @@
 {% block maincontent %}
 {% for category in categories %}
 <div class="row">
-   <div class="col-md-12" >
+   <div class="col-xs-12" >
       <a id="button" href='{{url_for('viewmodels', category_id = category.id)}}'>{{category.name}}</a>
    </div>
 </div>
-{% if login_session['username'] %}
+{% if login_session['name'] %}
 <div class="row">
-   <div class="col-md-12">
+   <div class = "col-xs-6 col-md-9">
+   </div>
+   <div class="col-xs-6 col-md-3">
       <a id="button2" href='{{url_for('deletegearcategory', category_id = category.id)}}'>del</a>
    </div>
 </div>
 {% endif %}
 {% endfor %}
-{% if login_session['username'] %}
+{% if login_session['name'] %}
 <div class="row">
-   <div class="col-md-12" >
+   <div class="col-xs-12" >
       <hr>
       <a id="button" href='{{url_for('addgearcategory')}}' class="edit"> + Add Category</a>
    </div>
-   <div id="space2"></div>
 </div>
 {% endif %}
 {% endblock %}
