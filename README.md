@@ -2,10 +2,6 @@ gearopedia
 ===================
 
 A catalog of production equipment sorted into categories with user authentication
-
-Getting started
-
-0) Setup the enviroment
 	
 Download & install Virtual Box (https://www.virtualbox.org/wiki/Downloads), Vagrant (https://www.vagrantup.com/downloads)
 
@@ -80,21 +76,14 @@ Create the folder to host our files
 	sudo mkdir ~/catalog/files/img
 	sudo mkdir ~/catalgo/files/uploads
 	
+Run the application
 
-	
+	python runserver.py
 
-1) Run the application
-	download Vagrant
-
-	python application.py
-
-2) Navigate to homepage (localhost)
+Navigate to homepage (localhost)
 
 	http://localhost:8080
 
-3) Login to enter/edit items (google accounts)
-or
-Click on categories to view items (read only)
 
 API endpoints
 	
