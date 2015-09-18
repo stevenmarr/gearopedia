@@ -80,26 +80,14 @@ Create the folder to host our files
 	sudo mkdir /vagrant/catalog/files/img
 	sudo mkdir /vagrant/catalgo/files/uploads
 	
-Open __init__.py and uncomment last line
-	
-	sudo nano /vagrant/catalog/gearopedia __init__.py
-Uncomment
-	#app.run(host='localhost', port=8080)
+
 Run the app
-	python __init__.py
 
-1) Run the application
-	download Vagrant
+	python runserver.py
 
-	python application.py
-
-2) Navigate to homepage (localhost)
+Navigate to homepage (localhost)
 
 	http://localhost:8080
-
-3) Login to enter/edit items (google accounts)
-or
-Click on categories to view items (read only)
 
 API endpoints
 	
