@@ -6,3 +6,4 @@
 /*.json
 instance/
 gearopedia_tests.py
+venv/
