@@ -1,0 +1,43 @@
+{% extends "main.html" %}
+{% block maincontent %}
+<div>
+<div class="row">
+   <div class="col-md-12">
+      <h3>
+         Add Category
+      </h3>
+   </div>
+</div>
+<div>
+   <form action='{{url_for('addgearcategory')}}' method="POST" enctype='multipart/form-data'>
+   {{ form.csrf_token }}
+      {% if form.csrf_token.errors %}
+         <div class="row">
+            <div class="col-md-12">
+               <ul class="errors">
+                  {% for error in form.csrf_token.errors %}
+                  {{ error }}
+                  {% endfor %}
+               </ul>
+            </div>
+         </div>
+         {% endif %}
+   <div class="row">
+      <div class="col-md-3">
+         {{ form.name.label }}  
+      </div>
+      <div class="col-md-9">
+         {{ form.name(class="field_size1")  }}
+      </div>
+      {% if form.name.errors %}
+      <ul class="errors">
+         {% for error in form.name.errors %}
+         {{ error }}
+         {% endfor %}
+      </ul>
+      {% endif %}
+   </div>
+   <input id="button" type="submit" value="Submit">
+   </form>
+</div>
+{% endblock %}

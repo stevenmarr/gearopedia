@@ -4,3 +4,5 @@
 /*.db
 .DS_Store
 /*.json
+instance/
+gearopedia_tests.py
