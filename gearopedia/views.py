@@ -14,13 +14,12 @@ from database import db_session as session
 from utils import check_login, add_file, delete_files, delete_image, add_image
 
 CLIENT_ID = app.config['CLIENT_ID']
-# Handlers****************************************
+
 # Login/Logout Handlers
 @app.route('/tokensignin', methods=['POST'])
 def tokensignin():
     """verify idtoken then set login_session"""
     token = request.form['idtoken']
-
     try:
         idinfo = client.verify_id_token(token, CLIENT_ID)
         if idinfo['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
