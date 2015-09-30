@@ -9,10 +9,11 @@ from werkzeug import secure_filename
 from gearopedia import app
 from models import GearCategories, GearModels, UploadedFiles, Images
 from database import db_session as session
+from forms import FILE_TYPE
 
 ALLOWED_IMG_EXTENSIONS = app.config['ALLOWED_IMG_EXTENSIONS']
 ALLOWED_EXTENSIONS = app.config['ALLOWED_EXTENSIONS']
-FILE_TYPE = app.config['FILE_TYPE']
+
 # file helper functions
 def allowed_file(filename):
     """Return filename if extension is in ALLOWED_EXTENSIONS"""
