@@ -23,10 +23,9 @@
 
     function onSignIn(googleUser) {
         var id_token = googleUser.getAuthResponse().id_token;
-        //console.log(id_token)
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'http://localhost:8080/tokensignin');
-        //xhr.open('POST', 'http://ec2-52-27-153-241.us-west-2.compute.amazonaws.com/tokensignin');
+        var url = "http://" + self.location.hostname + "/tokensignin"; 
+	xhr.open('POST', url);
         xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
         xhr.onload = function() {
             console.log('Status ' + xhr.responseText);
@@ -40,9 +39,8 @@
         user = auth2.currentUser.get();
         id_token = auth2.currentUser.get().getAuthResponse().id_token;
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'http://localhost:8080/tokensignout');
-        
-        //xhr.open('POST', 'http://ec2-52-27-153-241.us-west-2.compute.amazonaws.com/tokensignout');                   
+        var url = "http://" + self.location.hostname + "/tokensignout";
+        xhr.open('POST', url);
         xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
         xhr.onload = function() {
             console.log('Status ' + xhr.responseText);
