@@ -7,3 +7,5 @@
 instance/
 gearopedia_tests.py
 venv/
+uploads/
+img/
