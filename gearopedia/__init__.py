@@ -8,4 +8,5 @@ app.config.from_pyfile('config.py')
 app.config.from_envvar('APP_CONFIG', silent=True)
 
 import gearopedia.views
-
+from database import init_db
+init_db()
