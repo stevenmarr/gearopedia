@@ -1,9 +1,20 @@
 #!/usr/bin/python
+
+
 from datetime import timedelta
 
 from wtforms import Form, StringField, validators, SelectField, FileField
 from wtforms.ext.csrf.session import SessionSecureForm
 from gearopedia import app
+
+FILE_TYPE = {
+    '0': '-',
+    '1': 'Owners Manual',
+    '2': 'Service Manual',
+    '3': 'Firmware',
+    '4': 'Software',
+    '5': 'Other',
+}
 
 class BaseForm(SessionSecureForm):
     SECRET_KEY = app.config['SECRET_KEY']
@@ -31,4 +42,4 @@ class ModelForm(BaseForm):
     file = FileField(u'File', [validators.Optional()])
 
     file_type = SelectField(u'File type', choices=[(key,
-                            app.config['FILE_TYPE'][key]) for key in app.config['FILE_TYPE'].keys()])
+                            FILE_TYPE[key]) for key in FILE_TYPE.keys()])
