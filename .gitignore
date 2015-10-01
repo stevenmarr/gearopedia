@@ -9,3 +9,4 @@ gearopedia_tests.py
 venv/
 uploads/
 img/
+.idea/
