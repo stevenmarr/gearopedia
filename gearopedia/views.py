@@ -15,10 +15,11 @@ from utils import check_login, add_file, delete_files, delete_image, add_image
 
 CLIENT_ID = app.config['CLIENT_ID']
 
+
 # Login/Logout Handlers
 @app.route('/tokensignin', methods=['POST'])
 def tokensignin():
-    """verify idtoken then set login_session"""
+    """Login user if valid id_token exists in request."""
     token = request.form['idtoken']
     try:
         idinfo = client.verify_id_token(token, CLIENT_ID)
@@ -28,17 +29,17 @@ def tokensignin():
         raise crypt.AppIdentityError("Login Failed")
     login_session['user_id'] = idinfo['sub']
     login_session['name'] = idinfo['name']
-    if idinfo.has_key('picture'):
-      login_session['picture'] = idinfo['picture']
+    if 'picture' in idinfo:
+        login_session['picture'] = idinfo['picture']
     else:
-      login_session['picture'] = "https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png"
+        login_session['picture'] = "https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png"
     response = "Login Success"
     return response
 
 
 @app.route('/tokensignout', methods=['POST'])
 def tokensignout():
-    """verify idtoken then del login_session"""
+    """Logout user if valid id_token exists in request."""
     token = request.form['idtoken']
     try:
         idinfo = client.verify_id_token(token, CLIENT_ID)
@@ -56,7 +57,7 @@ def tokensignout():
 # Category Handlers
 @app.route('/')
 def defaultgearcategories():
-    """Render home page"""
+    """Render home page."""
     categories = session.query(GearCategories).all()
     return render_template('default.html',
                            categories=categories,
@@ -67,7 +68,7 @@ def defaultgearcategories():
 
 @app.route('/add_category/', methods=['GET', 'POST'])
 def addgearcategory():
-    """Handler for adding a new gear category"""
+    """Create a new gear category."""
     if check_login():
         if request.method == 'POST':
             form = AddCategoryForm(request.form, csrf_context=login_session)
@@ -95,7 +96,7 @@ def addgearcategory():
 
 @app.route('/delete_category/<int:category_id>/', methods=['GET', 'POST'])
 def deletegearcategory(category_id):
-    """For a given category_id delete the models and category related to the category_id"""
+    """Delete a gear category."""
     if check_login():
         category = \
             session.query(GearCategories).filter_by(id=category_id).one()
@@ -126,7 +127,7 @@ def deletegearcategory(category_id):
 # Individual gear model handlers
 @app.route('/add_item/<int:category_id>/', methods=['GET', 'POST'])
 def addmodel(category_id):
-    """For a given category_id add a model"""
+    """Create a new gear model."""
     if check_login():
         # Retrieve category from DB
         category = \
@@ -178,7 +179,7 @@ def addmodel(category_id):
 
 @app.route('/view_items/<int:category_id>/')
 def viewmodels(category_id):
-    """For a given category_id render a template with all the models in the category"""
+    """View all models for a given category."""
     models = \
         session.query(GearModels).filter_by(category_id=category_id).order_by(GearModels.manufacturer).all()
     files = session.query(UploadedFiles).all()
@@ -194,7 +195,7 @@ def viewmodels(category_id):
 
 @app.route('/edit_model/<int:model_id>/', methods=['GET', 'POST'])
 def editmodel(model_id):
-    """Render the model_form page with model to update"""
+    """Edit a gear model."""
     if check_login():
         model = session.query(GearModels).filter_by(id=model_id).one()
         if request.method == 'POST':
@@ -245,7 +246,7 @@ def editmodel(model_id):
 
 @app.route('/delete_model/<int:model_id>/', methods=['GET', 'POST'])
 def deletemodel(model_id):
-    """For a given model_id delete the model"""
+    """Delete a gear model."""
 
     # Verify user is logged in
     if check_login():
@@ -271,14 +272,14 @@ def deletemodel(model_id):
 # File serving handler
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
-    """Given a filename return the file"""
+    """Return the uploaded file URL."""
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 
 # Image serving handler
 @app.route('/images/<filename>')
 def uploaded_img(filename):
-    """Given a filename return the image"""
+    """Return the uploaded image URL."""
     return send_from_directory(app.config['UPLOAD_IMG_FOLDER'],
                                filename)
 
@@ -286,7 +287,7 @@ def uploaded_img(filename):
 # JSON Handler
 @app.route('/json/')
 def json_call():
-    """Return JSON object off all category and model data"""
+    """Return JSON object off all categories and gear models."""
     models = session.query(GearModels).all()
     return jsonify(AllModels=[model.serialize for model in models])
 
