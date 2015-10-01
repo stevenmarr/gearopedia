@@ -7,6 +7,8 @@ from database import Base
 
 
 class GearCategories(Base):
+    """Categery model definition"""
+
     __tablename__ = 'category'
 
     id = Column(Integer, primary_key=True)
@@ -15,6 +17,8 @@ class GearCategories(Base):
 
 
 class GearModels(Base):
+    """Gear Model model definition"""
+
     __tablename__ = 'model'
 
     id = Column(Integer, primary_key=True)
@@ -30,6 +34,8 @@ class GearModels(Base):
 
     @property
     def serialize(self):
+        """Serialize gear models for JSON export"""
+
         return {'manufacturer': self.manufacturer,
                 'name': self.name,
                 'description': self.description,
@@ -40,6 +46,8 @@ class GearModels(Base):
 
 
 class Images(Base):
+    """Image file model definition"""
+
     __tablename__ = 'image'
 
     id = Column(Integer, primary_key=True)
@@ -51,6 +59,8 @@ class Images(Base):
 
 
 class UploadedFiles(Base):
+    """Uploaded files model definition"""
+
     __tablename__ = 'file'
 
     id = Column(Integer, primary_key=True)
@@ -61,6 +71,3 @@ class UploadedFiles(Base):
     model = relationship(GearModels)
     user_id = Column(String, nullable=False)
 
-
-#engine = create_engine(DATA_BASE)
-#Base.metadata.create_all(engine)
