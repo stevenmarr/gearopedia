@@ -16,17 +16,23 @@ FILE_TYPE = {
     '5': 'Other',
 }
 
+
 class BaseForm(SessionSecureForm):
+    """Base form, implements CSRF"""
+
     SECRET_KEY = app.config['SECRET_KEY']
     TIME_LIMIT = timedelta(minutes=20)  
 
+
 class AddCategoryForm(BaseForm):
+    """Form for adding new categories"""
 
     name = StringField(u'Name', [validators.DataRequired(),
                        validators.Length(1, 20)])
 
 
 class ModelForm(BaseForm):
+    """Form for addig new gear models"""
 
     manufacturer = StringField(u'Manufacturer', [validators.DataRequired(),
                                validators.Length(1, 80)])
