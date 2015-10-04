@@ -1,11 +1,11 @@
 #!/gearopedia/utils.py
 import os
 import logging
+import sqlalchemy
 
 from flask import url_for
 from flask import session as login_session
 from werkzeug import secure_filename
-
 from gearopedia import app
 from models import GearCategories, GearModels, UploadedFiles, Images
 from database import db_session as session
