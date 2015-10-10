@@ -1,11 +1,10 @@
-#!/gearopedia/utils.py
 import os
 import logging
+import sqlalchemy
 
 from flask import url_for
 from flask import session as login_session
 from werkzeug import secure_filename
-
 from gearopedia import app
 from models import GearCategories, GearModels, UploadedFiles, Images
 from database import db_session as session
@@ -57,6 +56,7 @@ def add_file(upload_file, file_type, model_id, edit=None):
                                path=path)
     session.add(model_file)
     session.commit()
+    session.close()
     return path
 
 
@@ -69,6 +69,7 @@ def delete_file(id):
     uploaded_file = session.query(UploadedFiles).filter_by(id=id).one()
     session.delete(uploaded_file)
     session.commit()
+    session.close()
     try:
         os.remove(os.path.join(app.config['UPLOAD_FOLDER'], uploaded_file.file_name))
     except OSError:
@@ -119,6 +120,7 @@ def add_image(upload_image, model_id):
                    path=path)
     session.add(image)
     session.commit()
+    session.close()
     return path
 
 
