@@ -1,10 +1,12 @@
-#!/usr/bin/python
-
 
 from datetime import timedelta
 
 from wtforms import Form, StringField, validators, SelectField, FileField
-from wtforms.ext.csrf.session import SessionSecureForm
+# from wtforms.ext.csrf.session import SessionSecureForm
+from flask.ext.wtf import Form
+
+
+
 from gearopedia import app
 
 FILE_TYPE = {
@@ -41,6 +43,7 @@ class ModelForm(BaseForm):
     description = StringField(u'Description', [validators.Length(0,
                               800)])
     product_url = StringField(u'Website', [validators.Optional(),
+                              validators.Length(14, 80),
                               validators.URL(require_tld=False,
                               message='Invalid URL')])
     image = FileField(u'Image File', [validators.Optional()])
