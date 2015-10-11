@@ -5,7 +5,7 @@ APPLICATION_NAME = 'Gearopedia'
 DEBUG = True
 SECRET_KEY = 'secret_key'
 SQLALCHEMY_DATABASE_URI = \
-        'sqlite:////%s/database/gearopedia.db' % BASE_DIR
+    'sqlite:///' + os.path.join(BASE_DIR, 'gearopedia.db')
 SQLALCHEMY_MIGRATE_REPO = os.path.join(BASE_DIR, 'db_repository')
 CLIENT_ID = \
     '522438111583-kpb1j28juerv3haeaak2qpq8qshetjtv.apps.googleusercontent.com'
