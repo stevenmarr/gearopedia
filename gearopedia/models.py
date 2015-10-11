@@ -15,6 +15,9 @@ class GearCategories(Base):
     name = Column(String(20), nullable=False)
     user_id = Column(String, nullable=False)
 
+    def __repr__(self):
+        return '<Category name: %r, User ID: %r>' % (self.name, self.user_id)
+
 
 class GearModels(Base):
     """Gear Model model definition"""
@@ -25,13 +28,17 @@ class GearModels(Base):
     manufacturer = Column(String(80), nullable=False)
     name = Column(String(80), nullable=False)
     description = Column(String(800))
-    product_url = Column(String(80))
-    manual_url = Column(String(80))
+    product_url = Column(String(2084))
+    manual_url = Column(String(2084))
     category_id = Column(Integer, ForeignKey('category.id'))
     category = relationship(GearCategories)
     user_id = Column(String, nullable=False)
     image_path = Column(String(250))
 
+    def __repr__(self):
+        return '<Model Name: %r, User ID: %r>' % (self.name, self.user_id)
+
+    
     @property
     def serialize(self):
         """Serialize gear models for JSON export"""
@@ -45,6 +52,7 @@ class GearModels(Base):
                 }
 
 
+
 class Images(Base):
     """Image file model definition"""
 
@@ -56,6 +64,9 @@ class Images(Base):
     model_id = Column(Integer, ForeignKey('model.id'))
     model = relationship(GearModels)
     user_id = Column(String, nullable=False)
+
+    def __repr__(self):
+        return '<File name: %r, User ID: %r>' % (self.file_name, self.user_id)
 
 
 class UploadedFiles(Base):
@@ -71,3 +82,5 @@ class UploadedFiles(Base):
     model = relationship(GearModels)
     user_id = Column(String, nullable=False)
 
+    def __repr__(self):
+        return '<File name: %r, User ID: %r>' % (self.file_name, self.user_id)    
