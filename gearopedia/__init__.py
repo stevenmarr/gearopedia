@@ -1,5 +1,5 @@
-#!/usr/bin/python
 from flask import Flask
+from flash.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__, instance_relative_config=True)
 app.config.from_object('config')
