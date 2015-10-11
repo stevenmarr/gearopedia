@@ -2,7 +2,6 @@
 from datetime import timedelta
 
 from wtforms import Form, StringField, validators, SelectField, FileField
-# from wtforms.ext.csrf.session import SessionSecureForm
 from flask.ext.wtf import Form
 
 
@@ -19,21 +18,14 @@ FILE_TYPE = {
 }
 
 
-class BaseForm(SessionSecureForm):
-    """Base form, implements CSRF"""
-
-    SECRET_KEY = app.config['SECRET_KEY']
-    TIME_LIMIT = timedelta(minutes=20)  
-
-
-class AddCategoryForm(BaseForm):
+class AddCategoryForm(Form):
     """Form for adding new categories"""
 
     name = StringField(u'Name', [validators.DataRequired(),
                        validators.Length(1, 20)])
 
 
-class ModelForm(BaseForm):
+class ModelForm(Form):
     """Form for addig new gear models"""
 
     manufacturer = StringField(u'Manufacturer', [validators.DataRequired(),
