@@ -1,12 +1,12 @@
-#!/usr/bin/python
+from gearopedia import db
 
-from sqlalchemy.orm import relationship
-from sqlalchemy import Column, ForeignKey, Integer, String
+# from sqlalchemy.orm import relationship
+# from sqlalchemy import Column, ForeignKey, Integer, String
 
-from database import Base
+# from datadb.Model import db.Model
 
 
-class GearCategories(Base):
+class GearCategories(db.Model):
     """Categery model definition"""
 
     __tablename__ = 'category'
@@ -19,7 +19,7 @@ class GearCategories(Base):
         return '<Category name: %r, User ID: %r>' % (self.name, self.user_id)
 
 
-class GearModels(Base):
+class GearModels(db.Model):
     """Gear Model model definition"""
 
     __tablename__ = 'model'
@@ -53,7 +53,7 @@ class GearModels(Base):
 
 
 
-class Images(Base):
+class Images(db.Model):
     """Image file model definition"""
 
     __tablename__ = 'image'
@@ -69,7 +69,7 @@ class Images(Base):
         return '<File name: %r, User ID: %r>' % (self.file_name, self.user_id)
 
 
-class UploadedFiles(Base):
+class UploadedFiles(db.Model):
     """Uploaded files model definition"""
 
     __tablename__ = 'file'
