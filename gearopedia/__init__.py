@@ -6,7 +6,10 @@ app.config.from_object('config')
 app.config.from_pyfile('config.py')
 app.config.from_envvar('APP_CONFIG', silent=True)  # Loads config/production.py when APP_CONFIG is defined
 
-import gearopedia.views
-from database import init_db
+db = SQLAlchemy(app)
 
-init_db()
+from gearopedia import views, models
+# import gearopedia.views
+# from database import init_db
+
+# init_db()
