@@ -18,6 +18,10 @@ FILE_TYPE = {
 }
 
 
+class LoginForm(Form):
+    openid = StringField('openid', validators=[DataRequired()])
+    remember_me = BooleanField('remember_me', default=False)
+
 class AddCategoryForm(Form):
     """Form for adding new categories"""
 
