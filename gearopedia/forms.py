@@ -1,7 +1,7 @@
 
 from datetime import timedelta
 
-from wtforms import Form, StringField, validators, SelectField, FileField
+from wtforms import Form, StringField, validators, SelectField, FileField, BooleanField
 from flask.ext.wtf import Form
 
 
@@ -19,7 +19,7 @@ FILE_TYPE = {
 
 
 class LoginForm(Form):
-    openid = StringField('openid', validators=[DataRequired()])
+    openid = StringField('openid', validators=[validators.DataRequired()])
     remember_me = BooleanField('remember_me', default=False)
 
 class AddCategoryForm(Form):

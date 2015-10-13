@@ -14,3 +14,4 @@ UPLOAD_FOLDER = '%s/files/uploads' % BASE_DIR
 UPLOAD_IMG_FOLDER = '%s/files/img' % BASE_DIR
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'zip', 'dmg'}
 ALLOWED_IMG_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+

@@ -12,10 +12,11 @@
       <!--Model Form-->
       {% if model %}
       <form action='{{url_for('editmodel', model_id=model.id)}}' method="POST" enctype='multipart/form-data'>
+      
       {% else %}
       <form action='{{url_for('addmodel', category_id=category.id)}}' method="POST" enctype='multipart/form-data'>
       {% endif %}
-      {{ form.csrf_token }}
+      {{ form.hidden_tag() }}
       {% if form.csrf_token.errors %}
          <div class="row">
             <div class="col-md-12">
