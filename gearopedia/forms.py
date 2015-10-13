@@ -1,10 +1,11 @@
-#!/usr/bin/python
-
 
 from datetime import timedelta
 
-from wtforms import Form, StringField, validators, SelectField, FileField
-from wtforms.ext.csrf.session import SessionSecureForm
+from wtforms import Form, StringField, validators, SelectField, FileField, BooleanField
+from flask.ext.wtf import Form
+
+
+
 from gearopedia import app
 
 FILE_TYPE = {
@@ -17,21 +18,18 @@ FILE_TYPE = {
 }
 
 
-class BaseForm(SessionSecureForm):
-    """Base form, implements CSRF"""
+class LoginForm(Form):
+    openid = StringField('openid', validators=[validators.DataRequired()])
+    remember_me = BooleanField('remember_me', default=False)
 
-    SECRET_KEY = app.config['SECRET_KEY']
-    TIME_LIMIT = timedelta(minutes=20)  
-
-
-class AddCategoryForm(BaseForm):
+class AddCategoryForm(Form):
     """Form for adding new categories"""
 
     name = StringField(u'Name', [validators.DataRequired(),
                        validators.Length(1, 20)])
 
 
-class ModelForm(BaseForm):
+class ModelForm(Form):
     """Form for addig new gear models"""
 
     manufacturer = StringField(u'Manufacturer', [validators.DataRequired(),
@@ -41,6 +39,7 @@ class ModelForm(BaseForm):
     description = StringField(u'Description', [validators.Length(0,
                               800)])
     product_url = StringField(u'Website', [validators.Optional(),
+                              validators.Length(14, 80),
                               validators.URL(require_tld=False,
                               message='Invalid URL')])
     image = FileField(u'Image File', [validators.Optional()])

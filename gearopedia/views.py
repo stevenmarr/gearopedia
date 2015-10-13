@@ -1,4 +1,3 @@
-#!/gearopedia/views.py
 import os
 import logging
 
@@ -7,16 +6,31 @@ from flask import session as login_session
 from flask import send_from_directory
 from oauth2client import client, crypt
 
-from models import GearCategories, GearModels, Base, UploadedFiles, Images
-from forms import AddCategoryForm, ModelForm
-from gearopedia import app
-from database import db_session as session
+from .models import GearCategories, GearModels, UploadedFiles, Images
+from .forms import AddCategoryForm, ModelForm, LoginForm
+from gearopedia import app, db
+# import db.db_session as session
 from utils import check_login, add_file, delete_files, delete_image, add_image
+session = db.session
 
 CLIENT_ID = app.config['CLIENT_ID']
 
 
 # Login/Logout Handlers
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    """Login user using OpenID"""
+    form = LoginForm()
+    if form.validate_on_submit():
+        flash('Login requested for OpenID="%s", remember_me=%s' %
+              (form.openid.data, str(form.remember_me.data)))
+        return redirect('/')
+    return render_template('login.html', 
+                           login_session=login_session,
+                           form=form,
+                           providers=app.config['OPENID_PROVIDERS'])
+
+
 @app.route('/tokensignin', methods=['POST'])
 def tokensignin():
     """Login user if valid id_token exists in request."""
@@ -51,12 +65,24 @@ def tokensignout():
     del login_session['name']
     del login_session['picture']
     response = "Logout Success"
+    session.close()
     return response
+
+# Error Handlers
+
+@app.errorhandler(404)
+def not_found_error(error):
+    return render_template('404.html', login_session=login_session), 404
+
+@app.errorhandler(500)
+def internal_error(error):
+    session.rollback()
+    return render_template('500.html', login_session=login_session), 500
 
 
 # Category Handlers
 @app.route('/')
-def defaultgearcategories():
+def default():
     """Render home page."""
     categories = session.query(GearCategories).all()
     return render_template('default.html',
@@ -71,7 +97,7 @@ def addgearcategory():
     """Create a new gear category."""
     if check_login():
         if request.method == 'POST':
-            form = AddCategoryForm(request.form, csrf_context=login_session)
+            form = AddCategoryForm(request.form, )
             # Validate form data, re-render form if there are errors
             if not form.validate():
                 # render form with errors
@@ -85,9 +111,9 @@ def addgearcategory():
             session.add(new_category)
             session.commit()
             flash('New category added')
-            return redirect(url_for('defaultgearcategories'))
+            return redirect(url_for('default'))
         else:  # Handle GET requests
-            form = AddCategoryForm(csrf_context=login_session)
+            form = AddCategoryForm()
             return render_template('add_category.html',
                                    form=form,
                                    login_session=login_session,
@@ -113,7 +139,7 @@ def deletegearcategory(category_id):
             session.delete(category)
             session.commit()
             flash('Category %s deleted' % category.name)
-            return redirect(url_for('defaultgearcategories'))
+            return redirect(url_for('default'))
         else:
 
             # Handle GET requests
@@ -135,7 +161,7 @@ def addmodel(category_id):
         # Handle POST requests
         if request.method == 'POST':
             # Render form, validate data
-            form = ModelForm(request.form, csrf_context=login_session)
+            form = ModelForm(request.form)
             if not form.validate():
                 return render_template('model_form.html',
                                        form=form,
@@ -169,7 +195,7 @@ def addmodel(category_id):
                                     category_id=model.category_id))
         else:
             # Handle GET requests
-            form = ModelForm(csrf_context=login_session)
+            form = ModelForm()
             return render_template('model_form.html',
                                    form=form,
                                    category=category,
@@ -199,11 +225,12 @@ def editmodel(model_id):
     if check_login():
         model = session.query(GearModels).filter_by(id=model_id).one()
         if request.method == 'POST':
-            form = ModelForm(request.form, csrf_context=login_session)
+            form = ModelForm(request.form, )
             # Validate form data
             if not form.validate():
                 return render_template('model_form.html',
                                        form=form,
+                                       model=model,
                                        category=model.category,
                                        login_session=login_session,
                                        CLIENT_ID=CLIENT_ID)
@@ -234,7 +261,7 @@ def editmodel(model_id):
 
             # Handle GET requests
 
-            form = ModelForm(obj=model, csrf_context=login_session)
+            form = ModelForm(obj=model, )
             return render_template('model_form.html',
                                    form=form,
                                    model=model,

@@ -5,10 +5,14 @@ import sqlalchemy
 from flask import url_for
 from flask import session as login_session
 from werkzeug import secure_filename
-from gearopedia import app
+
+from gearopedia import app, db
+
 from models import GearCategories, GearModels, UploadedFiles, Images
-from database import db_session as session
+# from database import db_session as session
 from forms import FILE_TYPE
+
+session = db.session
 
 ALLOWED_IMG_EXTENSIONS = app.config['ALLOWED_IMG_EXTENSIONS']
 ALLOWED_EXTENSIONS = app.config['ALLOWED_EXTENSIONS']

@@ -96,14 +96,16 @@
                         "min-width:100px; font-size:18px">
                             <li>
                                 <a href=
-                                "{{url_for('defaultgearcategories')}}">Home</a>
+                                "{{url_for('default')}}">Home</a>
                             </li>
 
                             <li>
                                 {% if login_session['name'] %} 
                                 <a href="#"onclick="signOut();">Logout</a> 
+                                {% else %}
+                                <a href="{{url_for('login')}}">Login</a>
                                 
-                            {% endif %}
+                                {% endif %}
                             </li>
                         </ul>
                     </div>
