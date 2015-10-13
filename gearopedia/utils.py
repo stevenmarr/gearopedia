@@ -60,7 +60,6 @@ def add_file(upload_file, file_type, model_id, edit=None):
                                path=path)
     session.add(model_file)
     session.commit()
-    session.close()
     return path
 
 
@@ -73,7 +72,6 @@ def delete_file(id):
     uploaded_file = session.query(UploadedFiles).filter_by(id=id).one()
     session.delete(uploaded_file)
     session.commit()
-    session.close()
     try:
         os.remove(os.path.join(app.config['UPLOAD_FOLDER'], uploaded_file.file_name))
     except OSError:
@@ -124,7 +122,6 @@ def add_image(upload_image, model_id):
                    path=path)
     session.add(image)
     session.commit()
-    session.close()
     return path
 
 

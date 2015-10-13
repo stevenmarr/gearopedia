@@ -17,20 +17,6 @@ CLIENT_ID = app.config['CLIENT_ID']
 
 
 # Login/Logout Handlers
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    """Login user using OpenID"""
-    form = LoginForm()
-    if form.validate_on_submit():
-        flash('Login requested for OpenID="%s", remember_me=%s' %
-              (form.openid.data, str(form.remember_me.data)))
-        return redirect('/')
-    return render_template('login.html', 
-                           login_session=login_session,
-                           form=form,
-                           providers=app.config['OPENID_PROVIDERS'])
-
-
 @app.route('/tokensignin', methods=['POST'])
 def tokensignin():
     """Login user if valid id_token exists in request."""

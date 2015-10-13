@@ -39,7 +39,7 @@ class ModelForm(Form):
     description = StringField(u'Description', [validators.Length(0,
                               800)])
     product_url = StringField(u'Website', [validators.Optional(),
-                              validators.Length(14, 80),
+                              validators.Length(14, 2084),
                               validators.URL(require_tld=False,
                               message='Invalid URL')])
     image = FileField(u'Image File', [validators.Optional()])
