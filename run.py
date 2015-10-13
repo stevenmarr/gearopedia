@@ -1,4 +1,4 @@
-#!/Users/personal/gearopedia/venv/bin/python
+#!flask/bin/python
 
 # Run a test server.
 from gearopedia import app

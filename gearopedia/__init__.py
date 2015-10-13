@@ -19,7 +19,7 @@ import views, models
 BASE_DIR = app.config['BASE_DIR']
 ADMINS = app.config['ADMINS']
 MAIL_SERVER = app.config['MAIL_SERVER']
-MAIL_PORT = app.config['MAIL_PORT']]
+MAIL_PORT = app.config['MAIL_PORT']
 MAIL_USERNAME = app.config['MAIL_USERNAME']
 MAIL_PASSWORD = app.config['MAIL_PASSWORD']
 

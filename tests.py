@@ -1,12 +1,16 @@
-#!/Users/personal/gearopedia/venv/bin/python
+#!flask/bin/python
 import os
 import unittest
 
-from gearopedia import app, db
+from coverage import coverage
 
+from gearopedia import app, db
 from gearopedia.models import GearModels
 
+
 BASE_DIR = app.config['BASE_DIR']
+cov = coverage(branch=True, omit=['venv/*', 'tests.py'])
+cov.start()
 
 class TestCase(unittest.TestCase):
     def setUp(self):
@@ -29,4 +33,12 @@ class TestCase(unittest.TestCase):
                         user_id="Unit Test")
         
 if __name__ == '__main__':
-    unittest.main()
+    try:
+        unittest.main()
+    except:
+        pass
+    cov.stop()
+    cov.save()
+    print('\n\nCoverage Report:\n')
+    cov.report()
+    cov.erase()

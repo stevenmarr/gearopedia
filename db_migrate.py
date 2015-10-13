@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!flask/bin/python
 import imp
 from migrate.versioning import api
 from gearopedia import app, db
