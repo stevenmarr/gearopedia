@@ -42,11 +42,12 @@
             <li><a href='{{file.path}}'>{{file.file_type}}</a></li>
             {% endif %}
             {% endfor %}
+            {% endif %}
             <li role="separator" class="divider"></li>
             <li><a href='{{url_for('editmodel', model_id=model.id)}}'>Edit</a></li>
             </ul>
             </div>
-            {% endif %}
+            
          </div>
          </div>
          {% endif %}
