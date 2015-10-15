@@ -21,7 +21,7 @@ class GearCategories(db.Model):
     __tablename__ = 'category'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(20), nullable=False)
+    name = db.Column(db.String(80), nullable=False)
     user_id = db.Column(db.String, nullable=False)
 
     def __repr__(self):

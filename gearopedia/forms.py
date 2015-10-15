@@ -26,7 +26,7 @@ class AddCategoryForm(Form):
     """Form for adding new categories"""
 
     name = StringField(u'Name', [validators.DataRequired(),
-                       validators.Length(1, 20)])
+                       validators.Length(1, 80)])
 
 
 class ModelForm(Form):
