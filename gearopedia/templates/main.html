@@ -29,8 +29,8 @@
     function onSignIn(googleUser) {
         var id_token = googleUser.getAuthResponse().id_token;
         var xhr = new XMLHttpRequest();
-        var url = "http://" + self.location.hostname + ":8080/tokensignin";
-        //var url = "http://" + self.location.hostname + "/tokensignin"; 
+        //var url = "http://" + self.location.hostname + ":8080/tokensignin";
+        var url = "http://" + self.location.hostname + "/tokensignin"; 
 	   xhr.open('POST', url);
         xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
         xhr.onload = function() {
@@ -45,8 +45,8 @@
         user = auth2.currentUser.get();
         id_token = auth2.currentUser.get().getAuthResponse().id_token;
         var xhr = new XMLHttpRequest();
-        var url = "http://" + self.location.hostname + ":8080/tokensignout";
-        //var url = "http://" + self.location.hostname + "/tokensignout";
+        //var url = "http://" + self.location.hostname + ":8080/tokensignout";
+        var url = "http://" + self.location.hostname + "/tokensignout";
         xhr.open('POST', url);
         xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
         xhr.onload = function() {
