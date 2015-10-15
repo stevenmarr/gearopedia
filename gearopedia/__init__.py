@@ -10,6 +10,7 @@ app.config.from_object('config')
 app.config.from_pyfile('config.py')
 app.config.from_envvar('APP_CONFIG', silent=True)  # Loads config/production.py when APP_CONFIG is defined
 
+
 db = SQLAlchemy(app)
 
 
@@ -22,6 +23,7 @@ MAIL_SERVER = app.config['MAIL_SERVER']
 MAIL_PORT = app.config['MAIL_PORT']
 MAIL_USERNAME = app.config['MAIL_USERNAME']
 MAIL_PASSWORD = app.config['MAIL_PASSWORD']
+
 
 if not app.debug:
     # Email errors
@@ -40,6 +42,7 @@ if not app.debug:
     file_handler.setLevel(logging.INFO)
     app.logger.addHandler(file_handler)
     app.logger.info('gearopedia startup')
+
 
 # create file and image upload folder structure if it does not exist
 img_path = "%s/files/img" % BASE_DIR
