@@ -1,5 +1,6 @@
 import os
 import logging
+import sqlalchemy
 
 from flask import render_template, url_for, request, redirect, flash, jsonify
 from flask import session as login_session
@@ -60,11 +61,13 @@ def tokensignout():
 
 @app.errorhandler(404)
 def not_found_error(error):
+    flash('PAGE NOT FOUND')
     return render_template('404.html', login_session=login_session), 404
 
 @app.errorhandler(500)
 def internal_error(error):
     session.rollback()
+    flash('SOMETHING BROKE!')
     return render_template('500.html', login_session=login_session), 500
 
 
@@ -197,8 +200,12 @@ def viewmodels(category_id):
     """View all models for a given category."""
     models = \
         session.query(GearModels).filter_by(category_id=category_id).order_by(GearModels.manufacturer).all()
-    category = \
-        session.query(GearCategories).filter_by(id=category_id).one()
+    try:
+        category = \
+            session.query(GearCategories).filter_by(id=category_id).one()
+    except sqlalchemy.orm.exc.NoResultFound:
+            flash ('Page not found')
+            return redirect(url_for('default'))
     files = session.query(UploadedFiles).all()
     images = session.query(Images).all()
     return render_template('view_models.html',
@@ -216,7 +223,11 @@ def viewmodels(category_id):
 def editmodel(model_id):
     """Edit a gear model."""
     if check_login():
-        model = session.query(GearModels).filter_by(id=model_id).one()
+        try:
+            model = session.query(GearModels).filter_by(id=model_id).one()
+        except sqlalchemy.orm.exc.NoResultFound:
+            flash ('Page not found')
+            return redirect(url_for('default'))
         if request.method == 'POST':
             form = ModelForm(request.form, )
             # Validate form data
@@ -271,7 +282,11 @@ def deletemodel(model_id):
 
     # Verify user is logged in
     if check_login():
-        model = session.query(GearModels).filter_by(id=model_id).one()
+        try:
+            model = session.query(GearModels).filter_by(id=model_id).one()
+        except sqlalchemy.orm.exc.NoResultFound:
+            flash ('Invalid ID')
+            return redirect(url_for('default'))
         # Handle POST requests
         if request.method == 'POST':
             # Delete from DB

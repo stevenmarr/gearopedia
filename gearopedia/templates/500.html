@@ -2,7 +2,12 @@
 {% extends "main.html" %}
 
 {% block maincontent %}
-  <h1>An unexpected error has occurred</h1>
-  <p>The administrator has been notified. Sorry for the inconvenience!</p>
-  <p><a href="{{ url_for('default') }}">Back</a></p>
+<ul class="list-group" style="margin:15px; ">  
+
+<li class="list-group-item" style="background-color:#888; padding:10px;">
+  <h1>NFG!</h1>
+  <p>Something broke but the administrator has been notified. Sorry for the inconvenience!</p>
+  <p><a href="{{ url_for('default') }}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Return to Home Page</a></p>
+</li>
+</ul>
 {% endblock %}
