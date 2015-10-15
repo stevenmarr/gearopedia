@@ -1,59 +1,71 @@
 {% extends "main.html" %}
 {% block maincontent %}
+
+                        
+<!--<div class="panel panel-default" style="background-color:#888; margin:15px">
+   <div class="panel-heading">{{category.name}}</div>-->
+<ul class="list-group" style="margin:15px; ">   
+<!--<div class="list-group" style="background-color:#888; margin:15px">-->
 {% for model in models %}
 
-   <div class="row">
-      <h3>
-      <div class="col-xs-7">
-         {{model.manufacturer}} -
-      
-         {{model.name}} 
-      </div>
-      
-      <div class="col-xs-5">
-         <img class="img-circle" src="{{model.image_path}}" style="float:right; margin-top:0px" >
-      </div>
-   </h3>
-   </div>
+   <li class="list-group-item" style="background-color:#888; padding:10px;">
+      <div class="row">
 
-<div class ="row">
-   <div class="col-xs-12">
-	{% if model.product_url != "" %}
-	<a id="button" href='{{model.product_url}}'>Product Website </a>
-   	{% endif %}
-   </div>
-</div>
-{% if login_session['name'] %}
+   <!--<div class="panel-body" >-->
+         <div class="col-md-5">   
+         <div class="col-xs-12">
+            {% if model.product_url != "" %}
+            <a href='{{model.product_url}}'>{{model.manufacturer}}<br>{{model.name}}</a>
+            {% else %}
+            <a  href='#'>{{model.manufacturer}}<br>{{model.name}}  </a>
+            {% endif %}
+         </div>
+         </div>
+         <div class="col-md-3"> 
+         <div class="col-xs-12">
+            <img class="img-circle" src="{{model.image_path}}">
+         </div>
+         </div>
+         <div class="col-md-4">
+         <div class="col-xs-12">
+            {% if login_session['name'] %}
+            
+            <div class="dropdown">
+             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
+             Downloads
+            <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" style="margin-right:10px;">
+            {% if files %}
+            {% for file in files %}
+            {% if file.model_id == model.id %}
+            <li><a href='{{file.path}}'>{{file.file_type}}</a></li>
+            {% endif %}
+            {% endfor %}
+            <li role="separator" class="divider"></li>
+            <li><a href='{{url_for('editmodel', model_id=model.id)}}'>Edit</a></li>
+            </ul>
+            </div>
+            {% endif %}
+         </div>
+         </div>
+         {% endif %}
+     </div>
+   </li>
 
-   {% if files %}
-   {% for file in files %}
-   {% if file.model_id == model.id %}
-   <div class="row">
-      <div class="col-xs-12">
-         <a id="button" href='{{file.path}}'>{{file.file_type}}</a>
-      </div>
-   </div>
-   {% endif %}
-   {% endfor %}
-   {% endif %}
-   <div class="row">
-      <div class="col-md-6">
-      </div>
-      <div class="col-xs-6 col-md-3">
-         <a id="button2"  href='{{url_for('editmodel', model_id=model.id)}}'>Edit</a>
-      </div>
-      <div class="col-xs-6 col-md-3">
-         <a id="button2" href='{{url_for('deletemodel', model_id=model.id)}}'>Del</a>
-      </div>
-      
-   </div>
-{% endif %}
+
+
+
 {% endfor %}
+</ul>
+
+
 {% if login_session['name'] %}
-<hr>
-<div class = "row">
-<div class="col-xs-12">
-   <a id="button" href='{{url_for('addmodel', category_id = category_id)}}'>Add New Model</a>
+
+<div class = "row" style="margin-left:15px; margin-bottom:50px">
+<div class="col-xs-12" >
+   
+   <a href='{{url_for('addmodel', category_id = category_id)}}'><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add New Model</a>
 </div>
 </div>
 {% endif %}

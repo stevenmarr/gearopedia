@@ -3,11 +3,13 @@
 <div>
 <div class="row">
    <div class="col-md-12">
-      <h3>
-         Add Category
-      </h3>
-   </div>
-</div>
+               <div class="panel panel-default" style="margin:15px;">
+      
+         <div class="panel-heading"> Add Category</div>
+            <div class="panel-body" style="background-color:#888; padding:10px;"> 
+      
+   
+
 <div>
    <form action='{{url_for('addgearcategory')}}' method="POST" enctype='multipart/form-data'>
    {{ form.csrf_token }}
@@ -37,7 +39,10 @@
       </ul>
       {% endif %}
    </div>
-   <input id="button" type="submit" value="Submit">
+   <input class="btn btn-default" type="submit" value="Submit" style="float:right; margin:15px;">
+
    </form>
+</div>
+</div>
 </div>
 {% endblock %}

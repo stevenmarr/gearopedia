@@ -29,6 +29,7 @@ def tokensignin():
         raise crypt.AppIdentityError("Login Failed")
     login_session['user_id'] = idinfo['sub']
     login_session['name'] = idinfo['name']
+    login_session['provider'] = "Google"
     if 'picture' in idinfo:
         login_session['picture'] = idinfo['picture']
     else:
@@ -50,6 +51,7 @@ def tokensignout():
     del login_session['user_id']
     del login_session['name']
     del login_session['picture']
+    del login_session['provider']
     response = "Logout Success"
     session.close()
     return response
@@ -72,6 +74,7 @@ def default():
     """Render home page."""
     categories = session.query(GearCategories).all()
     return render_template('default.html',
+                           title="Categories",
                            categories=categories,
                            login_session=login_session,
                            page_title='Categories',
@@ -194,11 +197,15 @@ def viewmodels(category_id):
     """View all models for a given category."""
     models = \
         session.query(GearModels).filter_by(category_id=category_id).order_by(GearModels.manufacturer).all()
+    category = \
+        session.query(GearCategories).filter_by(id=category_id).one()
     files = session.query(UploadedFiles).all()
     images = session.query(Images).all()
     return render_template('view_models.html',
+                           title="Models",
                            models=models,
                            category_id=category_id,
+                           category=category,
                            login_session=login_session,
                            files=files,
                            images=images,
@@ -215,6 +222,7 @@ def editmodel(model_id):
             # Validate form data
             if not form.validate():
                 return render_template('model_form.html',
+                                       title="Edit Model",
                                        form=form,
                                        model=model,
                                        category=model.category,

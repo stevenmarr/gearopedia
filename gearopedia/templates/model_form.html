@@ -3,12 +3,13 @@
 <div>
    <div class="row">
       <div class="col-md-12">
-         <h3>
-            Category: {{category.name}}
-         </h3>
-      </div>
-   </div>
-   <div>
+         <div class="panel panel-default" style="margin:15px;">
+      
+         <div class="panel-heading">Category: {{category.name}}</div>
+            <div class="panel-body" style="background-color:#888; padding:10px;"> 
+      
+   
+      
       <!--Model Form-->
       {% if model %}
       <form action='{{url_for('editmodel', model_id=model.id)}}' method="POST" enctype='multipart/form-data'>
@@ -139,12 +140,29 @@
          </ul>
          {% endif %}
       </div>
-   </div>
+   
+
    <div class="row">
-      <div class="col-md-12">
-         <input id="button" type="submit" value="Submit">
-      </div>
+      <div class="col-md-12" >
+    
+         <input class="btn btn-default" type="submit" value="Submit" style="float:right; margin:15px;">
+         </div>
    </div>
+</div>
+</div>
+   </div>
+         {% if login_session['user_id'] == "105472301115132080682"%}
+         {% if model %}
+         <div class="row" style="margin-left:15px; margin-bottom:50px">
+             <div class="col-md-12">
+              
+         <a href='{{url_for('deletemodel', model_id=model.id)}}'><span class="glyphicon glyphicon-remove" aria-hidden="true">Delete</span></a>
+            </div>
+         </div>
+         {% endif %}
+         {% endif %}
    </form>
+</div>
+</div>
 </div>
 {% endblock %}

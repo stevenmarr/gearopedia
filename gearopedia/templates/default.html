@@ -1,26 +1,29 @@
 {% extends "main.html" %}
 {% block maincontent %}
+<ul class="list-group" style="margin:15px; ">  
 {% for category in categories %}
+<li class="list-group-item" style="background-color:#888; padding:10px;">
+     
 <div class="row">
    <div class="col-xs-12" >
-      <a id="button" href='{{url_for('viewmodels', category_id = category.id)}}'>{{category.name}}</a>
+      <a  href='{{url_for('viewmodels', category_id = category.id)}}'>{{category.name}}</a>
    </div>
 </div>
-{% if login_session['name'] %}
+{% if login_session['user_id'] == "105472301115132080682"%}
 <div class="row">
-   <div class = "col-xs-6 col-md-9">
-   </div>
-   <div class="col-xs-6 col-md-3">
-      <a id="button2" href='{{url_for('deletegearcategory', category_id = category.id)}}'>del</a>
+   
+   <div class="col-xs-12 col-md-12">
+      <a href='{{url_for('deletegearcategory', category_id = category.id)}}'><span class="glyphicon glyphicon-remove" aria-hidden="true">Delete</span></a>
    </div>
 </div>
 {% endif %}
+</li>
 {% endfor %}
+</ul>
 {% if login_session['name'] %}
-<div class="row">
+<div class="row" style="margin-left:15px; margin-bottom:50px">
    <div class="col-xs-12" >
-      <hr>
-      <a id="button" href='{{url_for('addgearcategory')}}' class="edit"> + Add Category</a>
+      <a href='{{url_for('addgearcategory')}}'><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add New Category</a>
    </div>
 </div>
 {% endif %}
