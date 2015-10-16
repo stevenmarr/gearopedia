@@ -10,8 +10,8 @@ gearopedia_tests.py
 venv/
 uploads/
 img/
-tmp/
-coverage/
+tmp/coverage/
+
 .idea/
 *.*~
 *.BAK
