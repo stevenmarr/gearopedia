@@ -11,6 +11,7 @@ venv/
 uploads/
 img/
 tmp/
+coverage/
 .idea/
 *.*~
 *.BAK
