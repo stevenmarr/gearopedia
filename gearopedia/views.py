@@ -200,16 +200,17 @@ def viewmodels(category_id):
     """View all models for a given category."""
     try:	
 		models = \
-        	session.query(GearModels).filter_by(category_id=category_id).order_by(GearModels.manufacturer).all()
+            session.query(GearModels).filter_by(category_id=category_id).order_by(GearModels.manufacturer).all()
     except sqlalchemy.orm.exc.NoResultFound:
-            flash ('Page not found')
-            return redirect(url_for('default'))
-	try:
+        flash ('Page not found')
+        return redirect(url_for('default'))
+	
+    try:
         category = \
             session.query(GearCategories).filter_by(id=category_id).one()
     except sqlalchemy.orm.exc.NoResultFound:
-            flash ('Page not found')
-            return redirect(url_for('default'))
+        flash ('Page not found')
+        return redirect(url_for('default'))
     files = session.query(UploadedFiles).all()
     images = session.query(Images).all()
     return render_template('view_models.html',
