@@ -146,6 +146,8 @@ def delete_image(model_id):
 
 def check_login():
     """Return user name if user is logged in"""
+    if app.config['TESTING']:
+        login_session['name']="Test User"
     if 'name' not in login_session:
         raise TypeError
     else:

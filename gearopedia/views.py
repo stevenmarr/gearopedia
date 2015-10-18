@@ -12,6 +12,8 @@ from .forms import AddCategoryForm, ModelForm, LoginForm
 from gearopedia import app, db
 # import db.db_session as session
 from utils import check_login, add_file, delete_files, delete_image, add_image
+
+
 session = db.session
 
 CLIENT_ID = app.config['CLIENT_ID']
@@ -58,6 +60,10 @@ def tokensignout():
     return response
 
 # Error Handlers
+@app.errorhandler(400)
+def not_found_error(error):
+    flash('PAGE NOT FOUND')
+    return render_template('404.html', login_session=login_session), 404
 
 @app.errorhandler(404)
 def not_found_error(error):
@@ -116,8 +122,12 @@ def addgearcategory():
 def deletegearcategory(category_id):
     """Delete a gear category."""
     if check_login():
-        category = \
-            session.query(GearCategories).filter_by(id=category_id).one()
+        try:
+            category = \
+                session.query(GearCategories).filter_by(id=category_id).one()
+        except sqlalchemy.orm.exc.NoResultFound:
+             flash('Error deleting')
+             return redirect(url_for('default'))
         if request.method == 'POST':
             models = \
                 session.query(GearModels).filter_by(category=category).all()
@@ -155,6 +165,7 @@ def addmodel(category_id):
             # Render form, validate data
             form = ModelForm(request.form)
             if not form.validate():
+                flash('There was an error on the form %s.'% (form.errors))
                 return render_template('model_form.html',
                                        form=form,
                                        category=category,
@@ -164,17 +175,22 @@ def addmodel(category_id):
             model = GearModels(category=category,
                                user_id=login_session['name'])
             form.populate_obj(model)
-
+            
             # check for image upload if it exists
             image = request.files['image']
+
+            
             if image:
+                # import pdb; pdb.set_trace()
                 model.image_path = add_image(image, model.id)
             # add model to db
+           
             session.add(model)
             session.commit()
-            flash('New model created')
+            flash('New model created, File Type is %s' % form.file_type.data)
             # check for file upload if one exists
             uploaded_file = request.files['file']
+            
             if uploaded_file:
                 try:
                     add_file(uploaded_file, form.file_type.data, model.id, edit=True)
@@ -183,6 +199,7 @@ def addmodel(category_id):
                     flash('File type incorrect')
                 except OSError:
                     flash('File upload error')
+            print "redirect model.category_id = %s" %model.category_id
             return redirect(url_for('viewmodels',
                                     category_id=model.category_id))
         else:

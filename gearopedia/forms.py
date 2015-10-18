@@ -46,5 +46,5 @@ class ModelForm(Form):
 
     file = FileField(u'File', [validators.Optional()])
 
-    file_type = SelectField(u'File type', choices=[(key,
-                            FILE_TYPE[key]) for key in FILE_TYPE.keys()])
+    file_type = SelectField(u'File type', [validators.Optional()], choices=[(key,
+                            FILE_TYPE[key]) for key in FILE_TYPE.keys()],default='0')
