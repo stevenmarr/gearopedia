@@ -5,13 +5,16 @@ from logging.handlers import SMTPHandler, RotatingFileHandler
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 
-app = Flask(__name__, instance_relative_config=True)
-app.config.from_object('config')
-app.config.from_pyfile('config.py')
-app.config.from_envvar('APP_CONFIG', silent=False)  # Loads config/production.py when APP_CONFIG is defined
 
+
+app = Flask(__name__)
+
+app.config.from_object('config.BaseConfig')
+#app.config.from_pyfile('config.py')
+#app.config.from_envvar('APP_CONFIG', silent=False)  # Loads config/production.py when APP_CONFIG is defined
 
 db = SQLAlchemy(app)
+# when in initial deployoment db_create.py must be run to create db
 
 
 import views, models
@@ -60,6 +63,6 @@ except OSError:
         raise        
 
 # import gearopedia.views
-# from database import init_db
+#from database import init_db
 
-# init_db()
+#init_db()
