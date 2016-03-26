@@ -1,4 +1,4 @@
-#!flask/bin/python
+#!venv/bin/python
 
 # Run a test server.
 import os

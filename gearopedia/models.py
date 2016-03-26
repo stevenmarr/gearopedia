@@ -39,6 +39,19 @@ class GearCategories(db.Model):
     def __repr__(self):
         return '<Category name: %r, User ID: %r>' % (self.name, self.user_id)
 
+    def delete_category(self):
+        """Delete a gear category."""
+        # Get list of child objects matching category
+        models = \
+            db.session.query(GearModels).filter_by(category_id=self.id).all()
+        # Iterate through the list of objects calling their delete method
+        for model in models:
+            model.delete()
+        # Delete instance of category
+        db.session.delete(self)
+        # Commit and return
+        db.session.commit()
+
 
 class GearModels(db.Model):
     """Gear Model model definition"""
@@ -76,9 +89,6 @@ class GearModels(db.Model):
         Images.delete_image(self.id)
         db.session.delete(self)
         db.session.commit()
-        #TODO delete_files(model_id)
-        #TODO delete_image(model_id)
-
 
 class Images(db.Model):
     """Image file model definition"""
@@ -109,9 +119,9 @@ class Images(db.Model):
         model_id -- database id of the model"""
 
         # Erase existing upload_image if it exists
-        delete_image(model_id)
+        cls.delete_image(model_id)
         # check filename extension and make secure
-        if not allowed_image(upload_image.filename):
+        if not cls.allowed_image(upload_image.filename):
             raise TypeError
         filename = secure_filename(upload_image.filename)
         if not filename:

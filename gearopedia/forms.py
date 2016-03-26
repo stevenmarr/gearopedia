@@ -35,7 +35,7 @@ class ModelForm(Form):
     manufacturer = StringField(u'Manufacturer', [validators.DataRequired(),
                                validators.Length(1, 80)])
     name = StringField('Model', [validators.DataRequired(),
-                       validators.Length(3, 80)])
+                       validators.Length(2, 80)])
     description = StringField(u'Description', [validators.Length(0,
                               800)])
     product_url = StringField(u'Website', [validators.Optional(),

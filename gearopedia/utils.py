@@ -1,6 +1,6 @@
 import os
 
-from flask import url_for, flash, redirect
+from flask import url_for, flash, redirect, session
 from flask import session as login_session
 from functools import wraps
 
@@ -12,6 +12,7 @@ def login_required(f):
         if 'name' in login_session:
             return f(*args, **kwargs)
         elif os.environ['APP_CONFIG'] == 'config.TestingConfig':
+            session['name'] = "tester"
             return f(*args, **kwargs)
         else:
             flash('You need to login first.')

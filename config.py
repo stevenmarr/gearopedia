@@ -24,6 +24,10 @@ class BaseConfig(object):
 
 class TestingConfig(BaseConfig):
     DEBUG = True
+    TESTING = True
+    WTF_CSRF_ENABLED = False
+    #SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'test.db')
+    PRESERVE_CONTEXT_ON_EXCEPTION = False
 
 class DevelopmentConfig(BaseConfig):
     DEBUG = True

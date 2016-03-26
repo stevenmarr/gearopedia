@@ -124,7 +124,6 @@ def addgearcategory():
 @login_required
 def deletegearcategory(category_id):
     """Delete a gear category."""
-    #if check_login():
     try:
         category = \
             session.query(GearCategories).filter_by(id=category_id).one()
@@ -132,23 +131,10 @@ def deletegearcategory(category_id):
          flash('Error deleting')
          return redirect(url_for('default'))
     if request.method == 'POST':
-        models = \
-            session.query(GearModels).filter_by(category=category).all()
-
-        # Deleting a category also deletes the models in the category and files for that model
-        for model in models:
-            delete_files(model.id)
-            delete_image(model.id)
-            session.delete(model)
-            session.commit()
-        session.delete(category)
-        session.commit()
+        category.delete_category()
         flash('Category %s deleted' % category.name)
         return redirect(url_for('default'))
     else:
-
-        # Handle GET requests
-
         return render_template('delete_category.html',
                                category=category,
                                login_session=login_session,
@@ -182,17 +168,12 @@ def addmodel(category_id):
         
         # check for image upload if it exists
         image = request.files['image']
-
-        
         if image:
-            # import pdb; pdb.set_trace()
             model.image_path = Images.add_image(image, model.id)
-            #model.image_path = add_image(image, model.id)
-        # add model to db
-       
         session.add(model)
         session.commit()
         flash('New model created, File Type is %s' % form.file_type.data)
+        
         # check for file upload if one exists
         uploaded_file = request.files['file']
         
@@ -283,7 +264,7 @@ def editmodel(model_id):
         model_file = request.files['file']
         if model_file:
             try:
-                add_file(model_file, form.file_type.data, model.id, edit=True)
+                UploadedFiles.add_file(model_file, form.file_type.data, model.id, edit=True)
                 flash('File upload successful')
             except TypeError:
                 flash('File type incorrect')
