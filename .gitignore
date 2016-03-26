@@ -16,4 +16,4 @@ coverage/
 .idea/
 *.*~
 *.BAK
-.Python
+/*.Python
