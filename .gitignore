@@ -16,4 +16,5 @@ coverage/
 .idea/
 *.*~
 *.BAK
-/*.Python
+.Python
+gearopedia/.Python
