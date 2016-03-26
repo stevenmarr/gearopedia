@@ -9,7 +9,8 @@ from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-app.config.from_object('config.BaseConfig')
+app.config.from_object(os.environ['APP_CONFIG'])
+
 #app.config.from_pyfile('config.py')
 #app.config.from_envvar('APP_CONFIG', silent=False)  # Loads config/production.py when APP_CONFIG is defined
 

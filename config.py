@@ -1,7 +1,7 @@
 import os
 
 class BaseConfig(object):
-    DEBUG = True
+    DEBUG = False
     SECRET_KEY = 'secret_key'
     SQLALCHEMY_DATABASE_URI = \
         'sqlite:///' + os.path.join(os.path.abspath(os.path.dirname(__file__)), 'gearopedia.db')
@@ -21,3 +21,15 @@ class BaseConfig(object):
     MAIL_USERNAME = ''
     MAIL_PASSWORD = ''
 
+
+class TestingConfig(BaseConfig):
+    DEBUG = True
+
+class DevelopmentConfig(BaseConfig):
+    DEBUG = True
+
+
+class ProductionConfig(BaseConfig):
+    DEBUG = False
+    SQLALCHEMY_DATABASE_URI= \
+        'postgresql://postgres:%s@localhost/gearopedia' % 'cheese'

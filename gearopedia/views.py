@@ -11,7 +11,7 @@ from .models import GearCategories, GearModels, UploadedFiles, Images
 from .forms import AddCategoryForm, ModelForm, LoginForm
 from gearopedia import app, db
 # import db.db_session as session
-from utils import check_login, add_file, delete_files, delete_image, add_image
+from utils import login_required
 
 
 session = db.session
@@ -70,12 +70,13 @@ def not_found_error(error):
     flash('PAGE NOT FOUND')
     return render_template('404.html', login_session=login_session), 404
 
+'''
 @app.errorhandler(500)
 def internal_error(error):
     session.rollback()
     flash('SOMETHING BROKE!')
     return render_template('500.html', login_session=login_session), 500
-
+'''
 
 # Category Handlers
 @app.route('/')
@@ -91,125 +92,129 @@ def default():
 
 
 @app.route('/add_category/', methods=['GET', 'POST'])
+@login_required
 def addgearcategory():
     """Create a new gear category."""
-    if check_login():
-        if request.method == 'POST':
-            form = AddCategoryForm(request.form, )
-            # Validate form data, re-render form if there are errors
-            if not form.validate():
-                # render form with errors
-                return render_template('add_category.html',
-                                       form=form,
-                                       login_session=login_session,
-                                       CLIENT_ID=CLIENT_ID)
-            # Store new category in DB
-            new_category = GearCategories(name=form.name.data,
-                                          user_id=login_session['name'])
-            session.add(new_category)
-            session.commit()
-            flash('New category added')
-            return redirect(url_for('default'))
-        else:  # Handle GET requests
-            form = AddCategoryForm()
+    #if check_login():
+    if request.method == 'POST':
+        form = AddCategoryForm(request.form, )
+        # Validate form data, re-render form if there are errors
+        if not form.validate():
+            # render form with errors
             return render_template('add_category.html',
                                    form=form,
                                    login_session=login_session,
                                    CLIENT_ID=CLIENT_ID)
+        # Store new category in DB
+        new_category = GearCategories(name=form.name.data,
+                                      user_id=login_session['name'])
+        session.add(new_category)
+        session.commit()
+        flash('New category added')
+        return redirect(url_for('default'))
+    else:  # Handle GET requests
+        form = AddCategoryForm()
+        return render_template('add_category.html',
+                               form=form,
+                               login_session=login_session,
+                               CLIENT_ID=CLIENT_ID)
 
 
 @app.route('/delete_category/<int:category_id>/', methods=['GET', 'POST'])
+@login_required
 def deletegearcategory(category_id):
     """Delete a gear category."""
-    if check_login():
-        try:
-            category = \
-                session.query(GearCategories).filter_by(id=category_id).one()
-        except sqlalchemy.orm.exc.NoResultFound:
-             flash('Error deleting')
-             return redirect(url_for('default'))
-        if request.method == 'POST':
-            models = \
-                session.query(GearModels).filter_by(category=category).all()
+    #if check_login():
+    try:
+        category = \
+            session.query(GearCategories).filter_by(id=category_id).one()
+    except sqlalchemy.orm.exc.NoResultFound:
+         flash('Error deleting')
+         return redirect(url_for('default'))
+    if request.method == 'POST':
+        models = \
+            session.query(GearModels).filter_by(category=category).all()
 
-            # Deleting a category also deletes the models in the category and files for that model
-            for model in models:
-                delete_files(model.id)
-                delete_image(model.id)
-                session.delete(model)
-                session.commit()
-            session.delete(category)
+        # Deleting a category also deletes the models in the category and files for that model
+        for model in models:
+            delete_files(model.id)
+            delete_image(model.id)
+            session.delete(model)
             session.commit()
-            flash('Category %s deleted' % category.name)
-            return redirect(url_for('default'))
-        else:
+        session.delete(category)
+        session.commit()
+        flash('Category %s deleted' % category.name)
+        return redirect(url_for('default'))
+    else:
 
-            # Handle GET requests
+        # Handle GET requests
 
-            return render_template('delete_category.html',
-                                   category=category,
-                                   login_session=login_session,
-                                   CLIENT_ID=CLIENT_ID, )
+        return render_template('delete_category.html',
+                               category=category,
+                               login_session=login_session,
+                               CLIENT_ID=CLIENT_ID, )
 
 
 # Individual gear model handlers
 @app.route('/add_item/<int:category_id>/', methods=['GET', 'POST'])
+@login_required
 def addmodel(category_id):
     """Create a new gear model."""
-    if check_login():
+    #if check_login():
         # Retrieve category from DB
-        category = \
-            session.query(GearCategories).filter_by(id=category_id).one()
-        # Handle POST requests
-        if request.method == 'POST':
-            # Render form, validate data
-            form = ModelForm(request.form)
-            if not form.validate():
-                flash('There was an error on the form %s.'% (form.errors))
-                return render_template('model_form.html',
-                                       form=form,
-                                       category=category,
-                                       login_session=login_session,
-                                       CLIENT_ID=CLIENT_ID, )
-            # create new model object    
-            model = GearModels(category=category,
-                               user_id=login_session['name'])
-            form.populate_obj(model)
-            
-            # check for image upload if it exists
-            image = request.files['image']
-
-            
-            if image:
-                # import pdb; pdb.set_trace()
-                model.image_path = add_image(image, model.id)
-            # add model to db
-           
-            session.add(model)
-            session.commit()
-            flash('New model created, File Type is %s' % form.file_type.data)
-            # check for file upload if one exists
-            uploaded_file = request.files['file']
-            
-            if uploaded_file:
-                try:
-                    add_file(uploaded_file, form.file_type.data, model.id, edit=True)
-                    flash('File upload successful')
-                except TypeError:
-                    flash('File type incorrect')
-                except OSError:
-                    flash('File upload error')
-            print "redirect model.category_id = %s" %model.category_id
-            return redirect(url_for('viewmodels',
-                                    category_id=model.category_id))
-        else:
-            # Handle GET requests
-            form = ModelForm()
+    category = \
+        session.query(GearCategories).filter_by(id=category_id).one()
+    # Handle POST requests
+    if request.method == 'POST':
+        # Render form, validate data
+        form = ModelForm(request.form)
+        if not form.validate():
+            flash('There was an error on the form %s.'% (form.errors))
             return render_template('model_form.html',
                                    form=form,
                                    category=category,
                                    login_session=login_session,
-                                   CLIENT_ID=CLIENT_ID)
+                                   CLIENT_ID=CLIENT_ID, )
+        # create new model object    
+        model = GearModels(category=category,
+                           user_id=login_session['name'])
+        form.populate_obj(model)
+        
+        # check for image upload if it exists
+        image = request.files['image']
+
+        
+        if image:
+            # import pdb; pdb.set_trace()
+            model.image_path = Images.add_image(image, model.id)
+            #model.image_path = add_image(image, model.id)
+        # add model to db
+       
+        session.add(model)
+        session.commit()
+        flash('New model created, File Type is %s' % form.file_type.data)
+        # check for file upload if one exists
+        uploaded_file = request.files['file']
+        
+        if uploaded_file:
+            try:
+                UploadedFiles.add_file(uploaded_file, form.file_type.data, model.id, edit=True)
+                flash('File upload successful')
+            except TypeError:
+                flash('File type incorrect')
+            except OSError:
+                flash('File upload error')
+        print "redirect model.category_id = %s" %model.category_id
+        return redirect(url_for('viewmodels',
+                                category_id=model.category_id))
+    else:
+        # Handle GET requests
+        form = ModelForm()
+        return render_template('model_form.html',
+                               form=form,
+                               category=category,
+                               login_session=login_session,
+                               CLIENT_ID=CLIENT_ID)
 
 
 @app.route('/view_items/<int:category_id>/')
@@ -242,89 +247,90 @@ def viewmodels(category_id):
 
 
 @app.route('/edit_model/<int:model_id>/', methods=['GET', 'POST'])
+@login_required
 def editmodel(model_id):
     """Edit a gear model."""
-    if check_login():
-        try:
-            model = session.query(GearModels).filter_by(id=model_id).one()
-        except sqlalchemy.orm.exc.NoResultFound:
-            flash ('Page not found')
-            return redirect(url_for('default'))
-        if request.method == 'POST':
-            form = ModelForm(request.form, )
-            # Validate form data
-            if not form.validate():
-                return render_template('model_form.html',
-                                       title="Edit Model",
-                                       form=form,
-                                       model=model,
-                                       category=model.category,
-                                       login_session=login_session,
-                                       CLIENT_ID=CLIENT_ID)
-            form.populate_obj(model)
-            # Retrieve updated image if it exists and upload it
-            image = request.files['image']
-            if image:
-                path = add_image(image, model.id)
-                model.image_path = path
-            # add model to db
-            session.add(model)
-            session.commit()
-            flash('Model %s edited' % model.name)
-
-            # check for file upload if one exists
-            model_file = request.files['file']
-            if model_file:
-                try:
-                    add_file(model_file, form.file_type.data, model.id, edit=True)
-                    flash('File upload successful')
-                except TypeError:
-                    flash('File type incorrect')
-                except OSError:
-                    flash('File upload error')
-            return redirect(url_for('viewmodels',
-                                    category_id=model.category_id))
-        else:
-
-            # Handle GET requests
-
-            form = ModelForm(obj=model, )
+    #if check_login():
+    try:
+        model = session.query(GearModels).filter_by(id=model_id).one()
+    except sqlalchemy.orm.exc.NoResultFound:
+        flash ('Page not found')
+        return redirect(url_for('default'))
+    if request.method == 'POST':
+        form = ModelForm(request.form, )
+        # Validate form data
+        if not form.validate():
             return render_template('model_form.html',
+                                   title="Edit Model",
                                    form=form,
                                    model=model,
                                    category=model.category,
                                    login_session=login_session,
-                                   CLIENT_ID=CLIENT_ID, 
-                                   )
+                                   CLIENT_ID=CLIENT_ID)
+        form.populate_obj(model)
+        # Retrieve updated image if it exists and upload it
+        image = request.files['image']
+        if image:
+            model.image_path = Images.add_image(image, model.id)
+            #path = add_image(image, model.id)
+            #model.image_path = path
+        # add model to db
+        session.add(model)
+        session.commit()
+        flash('Model %s edited' % model.name)
+
+        # check for file upload if one exists
+        model_file = request.files['file']
+        if model_file:
+            try:
+                add_file(model_file, form.file_type.data, model.id, edit=True)
+                flash('File upload successful')
+            except TypeError:
+                flash('File type incorrect')
+            except OSError:
+                flash('File upload error')
+        return redirect(url_for('viewmodels',
+                                category_id=model.category_id))
+    else:
+
+        # Handle GET requests
+
+        form = ModelForm(obj=model, )
+        return render_template('model_form.html',
+                               form=form,
+                               model=model,
+                               category=model.category,
+                               login_session=login_session,
+                               CLIENT_ID=CLIENT_ID, 
+                               )
 
 
 @app.route('/delete_model/<int:model_id>/', methods=['GET', 'POST'])
+@login_required
 def deletemodel(model_id):
     """Delete a gear model."""
 
     # Verify user is logged in
-    if check_login():
-        try:
-            model = session.query(GearModels).filter_by(id=model_id).one()
-        except sqlalchemy.orm.exc.NoResultFound:
-            flash ('Invalid ID')
-            return redirect(url_for('default'))
-        # Handle POST requests
-        if request.method == 'POST':
-            # Delete from DB
-            delete_files(model_id)
-            delete_image(model_id)
-            session.delete(model)
-            session.commit()
-            flash('Model %s deleted' % model.name)
-            return redirect(url_for('viewmodels',
-                                    category_id=model.category_id))
-        else:
-            # Handle GET requests
-            return render_template('delete_model.html',
-                                   model=model,
-                                   login_session=login_session,
-                                   CLIENT_ID=CLIENT_ID, )
+    #if check_login():
+    try:
+        model = session.query(GearModels).filter_by(id=model_id).one()
+    except sqlalchemy.orm.exc.NoResultFound:
+        flash ('Invalid ID')
+        return redirect(url_for('default'))
+    # Handle POST requests
+    if request.method == 'POST':
+        # Delete from DB
+        # TODO add error checking
+        model.delete()
+        flash('Model %s deleted' % model.name)
+        return redirect(url_for('viewmodels',
+                                category_id=model.category_id))
+    else:
+        # Handle GET requests
+        return render_template('delete_model.html',
+                               model=model,
+                               login_session=login_session,
+                               CLIENT_ID=CLIENT_ID, )
 
 
 # File serving handler
