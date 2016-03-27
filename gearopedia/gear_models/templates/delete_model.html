@@ -2,7 +2,7 @@
 {% block maincontent %}
 {% if login_session['name'] %}
 <div>
-   <form action='{{url_for('deletemodel', model_id=model.id)}}' method="POST" enctype='multipart/form-data'>
+   <form action='{{url_for('gearModels.deletemodel', model_id=model.id)}}' method="POST" enctype='multipart/form-data'>
    <h3>Model to delete: {{ model.name }}</h3>
    <input id='button' type="submit" value="Confirm Delete">
    </form>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% if title %}
+    <title>{{ title }} - gearopedia</title>
+    {% else %}
+    <title>gearopedia</title>
+    {% endif %}
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="profile email" name="google-signin-scope">
+    <meta content="{{CLIENT_ID}}" name="google-signin-client_id">
+    <!-- CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+    <!--Google Scripts-->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
+    </script>
+    <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer>
+    </script>
+    <script src="https://apis.google.com/js/client.js?onload=init"></script>
+    <script async="" defer src="https://apis.google.com/js/platform.js"></script>
+    <script src=
+    "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!--Bootstrap Scripts-->
+    <script src=
+    "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <script>
+
+    function onSignIn(googleUser) {
+        var id_token = googleUser.getAuthResponse().id_token;
+        var xhr = new XMLHttpRequest();
+        var url = "http://" + self.location.host + "/tokensignin"; 
+        xhr.open('POST', url);
+        xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+        xhr.onload = function() {
+            console.log('Status ' + xhr.responseText);
+            };
+        xhr.send('idtoken=' + id_token);
+        {% if not login_session['name'] %}
+            setTimeout(function() {
+                window.location.href = window.location.pathname;
+            }, 400);
+        {% endif %}
+    }
+
+    function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        user = auth2.currentUser.get();
+        id_token = auth2.currentUser.get().getAuthResponse().id_token;
+        var xhr = new XMLHttpRequest();
+        var url = "http://" + self.location.host + "/tokensignout";
+        xhr.open('POST', url);
+        xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+        xhr.onload = function() {
+            console.log('Status ' + xhr.responseText);
+            };
+        xhr.send('idtoken=' + id_token);
+        auth2.signOut().then(function() {
+            console.log('User signed out.');
+            setTimeout(function() {
+                window.location.href = window.location.pathname;
+            }, 400);
+        });
+    }
+    function signincallback() {
+        setTimeout(function() {
+        window.location.href = window.location.pathname;
+        }, 3000);
+    }             
+   </script>
+</head>
+<body>
+    <div class="container">
+        <!--NEW NAV BAR OPEN -->
+        <nav class="navbar navbar-default" style="margin-top:15px;">
+          <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="/">Gearopedia</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav" style="float:right;">
+                    
+            {% if login_session['provider']=="Google" %}
+                <li>
+                <div class="g-signin2" data-onsuccess="onSignIn" data-theme="light" style="padding:5px;">
+                </div>
+                </li>
+            {% else %}
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Login<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+        
+            
+                 <li> <div class="g-signin2" 
+                                        
+                                        data-onsuccess="onSignIn"
+                                        
+                                        data-theme="light" 
+                                        style="padding:5px;" 
+                                        >
+                                        
+                </div></li>
+               </ul>
+        </li>
+            {% endif %}
+            {% if login_session['name'] %}
+                    
+                    <li>
+                        <a style=" float:right;" href="#" onclick="signOut();">Logout</a>
+                    </li>
+                    
+                    {% endif %}
+              
+              <!--<form class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" placeholder="Search">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+              </form>-->
+              </ul>
+              
+            </div><!-- /.navbar-collapse -->
+          </div><!-- /.container-fluid -->
+        </nav>
+        <!-- NEW NAVBAR CLOSE -->
+               
+        <!-- messaging -->
+        {% with messages = get_flashed_messages() %} {% if messages %}
+        <div class="bs-example bs-example-standalone" data-example-id="dismissible-alert-js">
+            <div class="alert alert-warning alert-dismissible fade in" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    {% for message in
+                    messages%}
+                    <strong>{{ message }}</strong> 
+                    {% endfor %}
+            </div>
+        </div>
+        {% endif %} {% endwith %}
+        <!-- close messaging -->
+        <div class="row">
+            <div class='col-sm-6'></div>
+        </div>
+       
+        <div class ="row">
+            <div class="span12">
+                {% block maincontent %} {% endblock %}  
+            <!--close span-->
+            </div>
+        <!--close row-->
+        </div>
+    <!--close container-->
+    </div>
+</body>
+</html>

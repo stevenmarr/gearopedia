@@ -3,8 +3,8 @@ import os
 class BaseConfig(object):
     DEBUG = False
     SECRET_KEY = 'secret_key'
-    SQLALCHEMY_DATABASE_URI = \
-        'sqlite:///' + os.path.join(os.path.abspath(os.path.dirname(__file__)), 'gearopedia.db')
+    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URI']
+        
     BASE_DIR = os.path.abspath(os.path.dirname(__file__))
     APPLICATION_NAME = 'Gearopedia'
     SQLALCHEMY_MIGRATE_REPO = os.path.join(BASE_DIR, 'db_repository')
@@ -26,7 +26,7 @@ class TestingConfig(BaseConfig):
     DEBUG = True
     TESTING = True
     WTF_CSRF_ENABLED = False
-    #SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'test.db')
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
     PRESERVE_CONTEXT_ON_EXCEPTION = False
 
 class DevelopmentConfig(BaseConfig):

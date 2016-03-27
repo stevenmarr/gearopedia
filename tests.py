@@ -7,7 +7,7 @@ from coverage import coverage
 
 
 #os.environ['APP_CONFIG'] = '/var/www/gearopedia/config/production.py'
-os.environ['APP_CONFIG'] = 'config.TestingConfig'
+
 
 from gearopedia import app, db, views
 from gearopedia.models import GearModels
@@ -24,6 +24,7 @@ class BaseTestCase(TestCase):
     """A base test case for flask-tracking."""
 
     def create_app(self):
+        app.config.from_object('config.TestingConfig')
         return app
 
     def setUp(self):
@@ -32,8 +33,7 @@ class BaseTestCase(TestCase):
     def tearDown(self):
         db.session.remove()
         db.drop_all()
-        
-   
+           
     def test_addgearcategory(self):
         response = self.add_category()
         assert 'New category added' in response.data
@@ -45,7 +45,7 @@ class BaseTestCase(TestCase):
 
     def test_deletegearcategory(self):
         self.test_addgearcategory()
-        response = self.client.post(url_for('deletegearcategory', category_id=1),
+        response = self.client.post(url_for('categories.deletegearcategory', category_id=1),
                                     follow_redirects=True)
         assert 'deleted' in response.data
 
@@ -57,7 +57,7 @@ class BaseTestCase(TestCase):
 
     def add_models(self):
         self.add_category()
-        return(self.client.post(url_for('addmodel', category_id = 1),
+        return(self.client.post(url_for('gearModels.addmodel', category_id = 1),
                                         data=dict(manufacturer='test_name%s' % '_test',
                                         name='test_name%s' % '_test',
                                         description='test_name%s' % '_test',
@@ -73,7 +73,7 @@ class BaseTestCase(TestCase):
     
     def test_JSON_response(self):
         self.add_models()
-        response = self.client.get(url_for('json_call'))
+        response = self.client.get(url_for('gearModels.json_call'))
 
         assert 'test_name_test' in response.data
 
@@ -82,12 +82,12 @@ class BaseTestCase(TestCase):
        
 
 if __name__ == "__main__":
-    cov = coverage(branch=True, omit=['venv/*', 'tests.py'])
-    cov.start()
+    #cov = coverage(branch=True, omit=['venv/*', 'tests.py'])
+    #cov.start()
     suite = unittest.TestLoader().loadTestsFromTestCase(BaseTestCase)
     unittest.TextTestRunner(verbosity=2).run(suite)
-    cov.stop()
-    cov.save()
-    print("HTML version: " + os.path.join(BASE_DIR, "tmp/coverage/index.html"))
-    cov.html_report(directory=os.path.join(BASE_DIR, "tmp/coverage/index.html"))
-    cov.erase()
+    #cov.stop()
+    #cov.save()
+    #print("HTML version: " + os.path.join(BASE_DIR, "tmp/coverage/index.html"))
+    #cov.html_report(directory=os.path.join(BASE_DIR, "tmp/coverage/index.html"))
+    #cov.erase()

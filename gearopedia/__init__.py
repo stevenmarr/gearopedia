@@ -8,15 +8,19 @@ from flask.ext.sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__)
-
-app.config.from_object(os.environ['APP_CONFIG'])
-
-#app.config.from_pyfile('config.py')
-#app.config.from_envvar('APP_CONFIG', silent=False)  # Loads config/production.py when APP_CONFIG is defined
-
+app.config.from_object(os.environ['APP_SETTINGS'])
 db = SQLAlchemy(app)
+
 # when in initial deployoment db_create.py must be run to create db
 
+from gearopedia.categories.views import categories_blueprint
+from gearopedia.gear_models.views import gear_models_blueprint
+from gearopedia.home.views import home_blueprint
+
+# register blueprints
+app.register_blueprint(categories_blueprint)
+app.register_blueprint(gear_models_blueprint)
+app.register_blueprint(home_blueprint)
 
 import views, models
 

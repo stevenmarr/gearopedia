@@ -12,10 +12,10 @@
       
       <!--Model Form-->
       {% if model %}
-      <form action='{{url_for('editmodel', model_id=model.id)}}' method="POST" enctype='multipart/form-data'>
+      <form action='{{url_for('gearModels.editmodel', model_id=model.id)}}' method="POST" enctype='multipart/form-data'>
       
       {% else %}
-      <form action='{{url_for('addmodel', category_id=category.id)}}' method="POST" enctype='multipart/form-data'>
+      <form action='{{url_for('gearModels.addmodel', category_id=category.id)}}' method="POST" enctype='multipart/form-data'>
       {% endif %}
       {{ form.hidden_tag() }}
       {% if form.csrf_token.errors %}
@@ -156,7 +156,7 @@
          <div class="row" style="margin-left:15px; margin-bottom:50px">
              <div class="col-md-12">
               
-         <a href='{{url_for('deletemodel', model_id=model.id)}}'><span class="glyphicon glyphicon-remove" aria-hidden="true">Delete</span></a>
+         <a href='{{url_for('gearModels.deletemodel', model_id=model.id)}}'><span class="glyphicon glyphicon-remove" aria-hidden="true">Delete</span></a>
             </div>
          </div>
          {% endif %}

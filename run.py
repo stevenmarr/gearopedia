@@ -1,9 +1,9 @@
-#!venv/bin/python
+#!flask/bin/python
 
 # Run a test server.
 import os
 
-os.environ['APP_CONFIG'] = "config.DevelopmentConfig"
+#os.environ['APP_SETTINGS'] = "config.DevelopmentConfig"
 
 from gearopedia import app
 
