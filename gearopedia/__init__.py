@@ -7,7 +7,6 @@ from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 
 
-
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
 db = SQLAlchemy(app)
@@ -26,13 +25,13 @@ app.register_blueprint(home_blueprint)
 import views, models
 
 BASE_DIR = app.config['BASE_DIR']
-ADMINS = app.config['ADMINS']
+'''ADMINS = app.config['ADMINS']
 MAIL_SERVER = app.config['MAIL_SERVER']
 MAIL_PORT = app.config['MAIL_PORT']
 MAIL_USERNAME = app.config['MAIL_USERNAME']
-MAIL_PASSWORD = app.config['MAIL_PASSWORD']
+MAIL_PASSWORD = app.config['MAIL_PASSWORD']'''
 
-if not app.debug:
+"""if not app.debug:
     # Email errors
     credentials = None
     if MAIL_USERNAME or MAIL_PASSWORD:
@@ -48,7 +47,7 @@ if not app.debug:
     app.logger.setLevel(logging.INFO)
     file_handler.setLevel(logging.INFO)
     app.logger.addHandler(file_handler)
-    app.logger.info('gearopedia startup')
+    app.logger.info('gearopedia startup')"""
 
 
 # create file and image upload folder structure if it does not exist
