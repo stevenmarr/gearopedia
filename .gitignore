@@ -13,6 +13,7 @@ img/
 tmp/coverage/
 tmp/
 coverage/
+.coverage
 .idea/
 *.*~
 *.BAK
