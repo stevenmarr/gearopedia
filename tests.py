@@ -5,11 +5,7 @@ from cStringIO import StringIO
 from mock import patch
 from coverage import coverage
 
-
-#os.environ['APP_CONFIG'] = '/var/www/gearopedia/config/production.py'
-
-
-from gearopedia import app, db, views
+from gearopedia import app, db
 from gearopedia.models import GearModels
 
 from flask import session as login_session
@@ -33,7 +29,7 @@ class BaseTestCase(TestCase):
     def tearDown(self):
         db.session.remove()
         db.drop_all()
-           
+
     def test_addgearcategory(self):
         response = self.add_category()
         assert 'New category added' in response.data
@@ -51,26 +47,26 @@ class BaseTestCase(TestCase):
 
     def add_category(self):
         with patch.dict(login_session, {'name': 'tester'}):
-            return(self.client.post('add_category/', 
-                                    data={'name': 'Category - Test'}, 
-                                    follow_redirects=True))
+            return (self.client.post('add_category/',
+                                     data={'name': 'Category - Test'},
+                                     follow_redirects=True))
 
     def add_models(self):
         self.add_category()
-        return(self.client.post(url_for('gearModels.addmodel', category_id = 1),
-                                        data=dict(manufacturer='test_name%s' % '_test',
-                                        name='test_name%s' % '_test',
-                                        description='test_name%s' % '_test',
-                                        product_url='http://www.example.com',
-                                        file_type='0',
-                                        file=(StringIO("test_text_file"), 'test.txt'),
-                                        image=(StringIO("png_string"), 'test.png')),
-                                        follow_redirects=True))
+        return (self.client.post(url_for('gearModels.addmodel', category_id=1),
+                                 data=dict(manufacturer='test_name%s' % '_test',
+                                           name='test_name%s' % '_test',
+                                           description='test_name%s' % '_test',
+                                           product_url='http://www.example.com',
+                                           file_type='0',
+                                           file=(StringIO("test_text_file"), 'test.txt'),
+                                           image=(StringIO("png_string"), 'test.png')),
+                                 follow_redirects=True))
 
     def test_add_models(self):
         response = self.add_models()
         assert 'New model created' in response.data
-    
+
     def test_JSON_response(self):
         self.add_models()
         response = self.client.get(url_for('gearModels.json_call'))
@@ -79,15 +75,15 @@ class BaseTestCase(TestCase):
 
     def test_edit_models(self):
         pass
-       
+
 
 if __name__ == "__main__":
-    #cov = coverage(branch=True, omit=['venv/*', 'tests.py'])
-    #cov.start()
+    cov = coverage(branch=True, omit=['venv/*', 'tests.py'])
+    cov.start()
     suite = unittest.TestLoader().loadTestsFromTestCase(BaseTestCase)
     unittest.TextTestRunner(verbosity=2).run(suite)
-    #cov.stop()
-    #cov.save()
-    #print("HTML version: " + os.path.join(BASE_DIR, "tmp/coverage/index.html"))
-    #cov.html_report(directory=os.path.join(BASE_DIR, "tmp/coverage/index.html"))
-    #cov.erase()
+    cov.stop()
+    cov.save()
+    print("HTML version: " + os.path.join(BASE_DIR, "tmp/coverage/index.html"))
+    cov.html_report(directory=os.path.join(BASE_DIR, "tmp/coverage/index.html"))
+    cov.erase()
