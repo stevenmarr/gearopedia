@@ -15,12 +15,6 @@ class BaseConfig(object):
     ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'zip', 'dmg'}
     ALLOWED_IMG_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
-    ADMINS = []
-    MAIL_SERVER = ''
-    MAIL_PORT  = ''
-    MAIL_USERNAME = ''
-    MAIL_PASSWORD = ''
-
 
 class TestingConfig(BaseConfig):
     DEBUG = True
