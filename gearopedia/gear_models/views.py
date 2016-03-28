@@ -1,14 +1,9 @@
-import os
-import logging
 import sqlalchemy
-
 from flask import render_template, url_for, request, redirect, flash, jsonify, Blueprint
 from flask import session as login_session
-from flask import send_from_directory
-from oauth2client import client, crypt
 
 from ..models import GearCategories, GearModels, UploadedFiles, Images
-from ..forms import AddCategoryForm, ModelForm, LoginForm
+from ..forms import ModelForm
 from gearopedia import app, db
 # import db.db_session as session
 from ..utils import login_required
@@ -18,17 +13,19 @@ session = db.session
 
 CLIENT_ID = app.config['CLIENT_ID']
 
-gear_models_blueprint=Blueprint(
+gear_models_blueprint = Blueprint(
     'gearModels', __name__,
     template_folder='templates')
 
+
 # Individual gear model handlers
+
+
 @gear_models_blueprint.route('/add_item/<int:category_id>/', methods=['GET', 'POST'])
 @login_required
 def addmodel(category_id):
     """Create a new gear model."""
-    #if check_login():
-        # Retrieve category from DB
+# Retrieve category from DB
     category = \
         session.query(GearCategories).filter_by(id=category_id).one()
     # Handle POST requests
@@ -36,7 +33,7 @@ def addmodel(category_id):
         # Render form, validate data
         form = ModelForm(request.form)
         if not form.validate():
-            flash('There was an error on the form %s.'% (form.errors))
+            flash('There was an error on the form %s.' % form.errors)
             return render_template('model_form.html',
                                    form=form,
                                    category=category,
@@ -66,7 +63,7 @@ def addmodel(category_id):
                 flash('File type incorrect')
             except OSError:
                 flash('File upload error')
-        print "redirect model.category_id = %s" %model.category_id
+        print "redirect model.category_id = %s" % model.category_id
         return redirect(url_for('gearModels.viewmodels',
                                 category_id=model.category_id))
     else:
@@ -86,14 +83,14 @@ def viewmodels(category_id):
         models = \
             session.query(GearModels).filter_by(category_id=category_id).order_by(GearModels.manufacturer).all()
     except sqlalchemy.orm.exc.NoResultFound:
-        flash ('Page not found')
+        flash('Page not found')
         return redirect(url_for('default'))
     
     try:
         category = \
             session.query(GearCategories).filter_by(id=category_id).one()
     except sqlalchemy.orm.exc.NoResultFound:
-        flash ('Page not found')
+        flash('Page not found')
         return redirect(url_for('default'))
     files = session.query(UploadedFiles).all()
     images = session.query(Images).all()
@@ -112,11 +109,10 @@ def viewmodels(category_id):
 @login_required
 def editmodel(model_id):
     """Edit a gear model."""
-    #if check_login():
     try:
         model = session.query(GearModels).filter_by(id=model_id).one()
     except sqlalchemy.orm.exc.NoResultFound:
-        flash ('Page not found')
+        flash('Page not found')
         return redirect(url_for('default'))
     if request.method == 'POST':
         form = ModelForm(request.form, )
@@ -134,9 +130,7 @@ def editmodel(model_id):
         image = request.files['image']
         if image:
             model.image_path = Images.add_image(image, model.id)
-            #path = add_image(image, model.id)
-            #model.image_path = path
-        # add model to db
+# add model to db
         session.add(model)
         session.commit()
         flash('Model %s edited' % model.name)
@@ -173,11 +167,10 @@ def deletemodel(model_id):
     """Delete a gear model."""
 
     # Verify user is logged in
-    #if check_login():
     try:
         model = session.query(GearModels).filter_by(id=model_id).one()
     except sqlalchemy.orm.exc.NoResultFound:
-        flash ('Invalid ID')
+        flash('Invalid ID')
         return redirect(url_for('default'))
     # Handle POST requests
     if request.method == 'POST':

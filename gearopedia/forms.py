@@ -1,12 +1,6 @@
+from wtforms import StringField, validators, SelectField, FileField, BooleanField
 
-from datetime import timedelta
-
-from wtforms import Form, StringField, validators, SelectField, FileField, BooleanField
 from flask.ext.wtf import Form
-
-
-
-from gearopedia import app
 
 FILE_TYPE = {
     '0': '-',
@@ -21,6 +15,7 @@ FILE_TYPE = {
 class LoginForm(Form):
     openid = StringField('openid', validators=[validators.DataRequired()])
     remember_me = BooleanField('remember_me', default=False)
+
 
 class AddCategoryForm(Form):
     """Form for adding new categories"""
@@ -47,4 +42,4 @@ class ModelForm(Form):
     file = FileField(u'File', [validators.Optional()])
 
     file_type = SelectField(u'File type', [validators.Optional()], choices=[(key,
-                            FILE_TYPE[key]) for key in FILE_TYPE.keys()],default='0')
+                            FILE_TYPE[key]) for key in FILE_TYPE.keys()], default='0')

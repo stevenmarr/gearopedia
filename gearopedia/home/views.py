@@ -1,25 +1,20 @@
-import os
-import logging
-import sqlalchemy
-
-from flask import render_template, url_for, request, redirect, flash, jsonify, Blueprint
+from flask import render_template, request, flash, Blueprint
 from flask import session as login_session
-from flask import send_from_directory
 from oauth2client import client, crypt
 
-from ..models import GearCategories, GearModels, UploadedFiles, Images
-from ..forms import AddCategoryForm, ModelForm, LoginForm
+from ..models import GearCategories
 from gearopedia import app, db
+
 # import db.db_session as session
-from ..utils import login_required
 
 session = db.session
 CLIENT_ID = app.config['CLIENT_ID']
 
-home_blueprint=Blueprint(
+home_blueprint = Blueprint(
     'home', __name__,
     template_folder='templates'
 )
+
 
 @home_blueprint.route('/')
 def default():
@@ -74,10 +69,13 @@ def tokensignout():
     return response
 
 # Error Handlers
+
+
 @home_blueprint.errorhandler(400)
 def not_found_error(error):
     flash('PAGE NOT FOUND')
     return render_template('404.html', login_session=login_session), 404
+
 
 @home_blueprint.errorhandler(404)
 def not_found_error(error):

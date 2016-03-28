@@ -1,14 +1,9 @@
-import os
-import logging
 import sqlalchemy
-
-from flask import render_template, url_for, request, redirect, flash, jsonify, Blueprint
+from flask import render_template, url_for, request, redirect, flash, Blueprint
 from flask import session as login_session
-from flask import send_from_directory
-from oauth2client import client, crypt
 
-from ..models import GearCategories, GearModels, UploadedFiles, Images
-from ..forms import AddCategoryForm, ModelForm, LoginForm
+from ..models import GearCategories
+from ..forms import AddCategoryForm
 from gearopedia import app, db
 # import db.db_session as session
 from ..utils import login_required
@@ -19,7 +14,7 @@ session = db.session
 CLIENT_ID = app.config['CLIENT_ID']
 
 
-categories_blueprint=Blueprint(
+categories_blueprint = Blueprint(
     'categories', __name__,
     template_folder='templates')
 
@@ -29,7 +24,6 @@ categories_blueprint=Blueprint(
 @login_required
 def addgearcategory():
     """Create a new gear category."""
-    #if check_login():
     if request.method == 'POST':
         form = AddCategoryForm(request.form, )
         # Validate form data, re-render form if there are errors
@@ -62,8 +56,8 @@ def deletegearcategory(category_id):
         category = \
             session.query(GearCategories).filter_by(id=category_id).one()
     except sqlalchemy.orm.exc.NoResultFound:
-         flash('Error deleting')
-         return redirect(url_for('default'))
+        flash('Error deleting')
+        return redirect(url_for('default'))
     if request.method == 'POST':
         category.delete_category()
         flash('Category %s deleted' % category.name)
